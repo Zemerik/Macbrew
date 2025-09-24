@@ -2,7 +2,7 @@
 
 A feature-rich terminal emulator built in Rust with Python integration, designed to provide a comprehensive command-line experience similar to macOS/Homebrew environments.
 
-[![npm version](https://badge.fury.io/js/macbrew.svg)](https://badge.fury.io/js/macbrew)
+[![npm version](https://img.shields.io/npm/v/@zemerik/macbrew.svg)](https://www.npmjs.com/package/@zemerik/macbrew)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Rust](https://img.shields.io/badge/Rust-1.70+-orange.svg)](https://www.rust-lang.org/)
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
