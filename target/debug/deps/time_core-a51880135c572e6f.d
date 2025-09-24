@@ -1,0 +1,8 @@
+C:\Users\HY250\Documents\Cursor\Macbrew\Macbrew\target\debug\deps\time_core-a51880135c572e6f.d: C:\Users\HY250\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\time-core-0.1.4\src\lib.rs C:\Users\HY250\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\time-core-0.1.4\src\convert.rs C:\Users\HY250\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\time-core-0.1.4\src\hint.rs C:\Users\HY250\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\time-core-0.1.4\src\util.rs
+
+C:\Users\HY250\Documents\Cursor\Macbrew\Macbrew\target\debug\deps\libtime_core-a51880135c572e6f.rmeta: C:\Users\HY250\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\time-core-0.1.4\src\lib.rs C:\Users\HY250\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\time-core-0.1.4\src\convert.rs C:\Users\HY250\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\time-core-0.1.4\src\hint.rs C:\Users\HY250\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\time-core-0.1.4\src\util.rs
+
+C:\Users\HY250\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\time-core-0.1.4\src\lib.rs:
+C:\Users\HY250\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\time-core-0.1.4\src\convert.rs:
+C:\Users\HY250\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\time-core-0.1.4\src\hint.rs:
+C:\Users\HY250\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\time-core-0.1.4\src\util.rs:

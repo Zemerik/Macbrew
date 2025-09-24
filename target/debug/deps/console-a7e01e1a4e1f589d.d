@@ -1,0 +1,11 @@
+C:\Users\HY250\Documents\Cursor\Macbrew\Macbrew\target\debug\deps\console-a7e01e1a4e1f589d.d: C:\Users\HY250\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\console-0.15.11\src\lib.rs C:\Users\HY250\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\console-0.15.11\src\common_term.rs C:\Users\HY250\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\console-0.15.11\src\kb.rs C:\Users\HY250\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\console-0.15.11\src\term.rs C:\Users\HY250\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\console-0.15.11\src\utils.rs C:\Users\HY250\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\console-0.15.11\src\windows_term\mod.rs C:\Users\HY250\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\console-0.15.11\src\ansi.rs
+
+C:\Users\HY250\Documents\Cursor\Macbrew\Macbrew\target\debug\deps\libconsole-a7e01e1a4e1f589d.rmeta: C:\Users\HY250\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\console-0.15.11\src\lib.rs C:\Users\HY250\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\console-0.15.11\src\common_term.rs C:\Users\HY250\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\console-0.15.11\src\kb.rs C:\Users\HY250\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\console-0.15.11\src\term.rs C:\Users\HY250\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\console-0.15.11\src\utils.rs C:\Users\HY250\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\console-0.15.11\src\windows_term\mod.rs C:\Users\HY250\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\console-0.15.11\src\ansi.rs
+
+C:\Users\HY250\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\console-0.15.11\src\lib.rs:
+C:\Users\HY250\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\console-0.15.11\src\common_term.rs:
+C:\Users\HY250\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\console-0.15.11\src\kb.rs:
+C:\Users\HY250\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\console-0.15.11\src\term.rs:
+C:\Users\HY250\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\console-0.15.11\src\utils.rs:
+C:\Users\HY250\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\console-0.15.11\src\windows_term\mod.rs:
+C:\Users\HY250\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\console-0.15.11\src\ansi.rs:

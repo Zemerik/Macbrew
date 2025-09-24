@@ -1,0 +1,731 @@
+<!DOCTYPE html><html lang="en" class="scroll-smooth"> <head><meta charset="UTF-8"><meta name="description" content="Advanced terminal emulator built in Rust with Python integration - A comprehensive command-line experience"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v3.6.5"><title></title><link rel="canonical" href="https://macbrew.dev/docs/api/"><!-- Open Graph --><meta property="og:type" content="website"><meta property="og:url" content="https://macbrew.dev/docs/api/"><meta property="og:title"><meta property="og:description" content="Advanced terminal emulator built in Rust with Python integration - A comprehensive command-line experience"><meta property="og:image" content="https://macbrew.dev/og-image.png"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://macbrew.dev/docs/api/"><meta property="twitter:title"><meta property="twitter:description" content="Advanced terminal emulator built in Rust with Python integration - A comprehensive command-line experience"><meta property="twitter:image" content="https://macbrew.dev/og-image.png"><!-- Fonts --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"><!-- Prism.js for syntax highlighting --><link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet"><link rel="stylesheet" href="/global.css"><link rel="stylesheet" href="/_astro/api.c1af7efe.css" /><script type="module" src="/_astro/hoisted.85e05fd5.js"></script></head> <body class="bg-gradient-to-br from-blue-50 via-sky-100 to-purple-100 dark:from-dark-900 dark:via-blue-950 dark:to-black text-dark-900 dark:text-white antialiased min-h-screen"> <main class="prose prose-lg prose-invert mx-auto px-4 py-8 max-w-4xl"> <h1 id="api-reference">API Reference</h1>
+<p>Macbrew provides a comprehensive API for programmatic access to its functionality.</p>
+<h2 id="overview">Overview</h2>
+<p>The Macbrew API allows you to:</p>
+<ul>
+<li>Execute commands programmatically</li>
+<li>Access configuration and settings</li>
+<li>Manage plugins</li>
+<li>Interact with the terminal interface</li>
+<li>Extend functionality through hooks</li>
+</ul>
+<h2 id="core-api">Core API</h2>
+<h3 id="command-execution">Command Execution</h3>
+<p>Execute commands programmatically:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> subprocess</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> json</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> execute_command</span><span style="color:#E1E4E8">(command, args</span><span style="color:#F97583">=</span><span style="color:#79B8FF">None</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#9ECBFF">    """Execute a Macbrew command"""</span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> args </span><span style="color:#F97583">is</span><span style="color:#79B8FF"> None</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">        args </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> []</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#E1E4E8">    cmd </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> [</span><span style="color:#9ECBFF">'macbrew'</span><span style="color:#E1E4E8">, command] </span><span style="color:#F97583">+</span><span style="color:#E1E4E8"> args</span></span>
+<span class="line"><span style="color:#E1E4E8">    result </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> subprocess.run(cmd, </span><span style="color:#FFAB70">capture_output</span><span style="color:#F97583">=</span><span style="color:#79B8FF">True</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">text</span><span style="color:#F97583">=</span><span style="color:#79B8FF">True</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#9ECBFF">        'stdout'</span><span style="color:#E1E4E8">: result.stdout,</span></span>
+<span class="line"><span style="color:#9ECBFF">        'stderr'</span><span style="color:#E1E4E8">: result.stderr,</span></span>
+<span class="line"><span style="color:#9ECBFF">        'returncode'</span><span style="color:#E1E4E8">: result.returncode</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Example usage</span></span>
+<span class="line"><span style="color:#E1E4E8">result </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> execute_command(</span><span style="color:#9ECBFF">'ls'</span><span style="color:#E1E4E8">, [</span><span style="color:#9ECBFF">'-la'</span><span style="color:#E1E4E8">])</span></span>
+<span class="line"><span style="color:#79B8FF">print</span><span style="color:#E1E4E8">(result[</span><span style="color:#9ECBFF">'stdout'</span><span style="color:#E1E4E8">])</span></span></code></pre>
+<h3 id="configuration-api">Configuration API</h3>
+<p>Access and modify Macbrew configuration:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> json</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> os</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">class</span><span style="color:#B392F0"> MacbrewConfig</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#79B8FF"> __init__</span><span style="color:#E1E4E8">(self):</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.config_path </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> os.path.expanduser(</span><span style="color:#9ECBFF">"~/.config/terminal-emulator/config.json"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> get_config</span><span style="color:#E1E4E8">(self):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Get current configuration"""</span></span>
+<span class="line"><span style="color:#F97583">        if</span><span style="color:#E1E4E8"> os.path.exists(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.config_path):</span></span>
+<span class="line"><span style="color:#F97583">            with</span><span style="color:#79B8FF"> open</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.config_path, </span><span style="color:#9ECBFF">'r'</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">as</span><span style="color:#E1E4E8"> f:</span></span>
+<span class="line"><span style="color:#F97583">                return</span><span style="color:#E1E4E8"> json.load(f)</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8"> {}</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> set_config</span><span style="color:#E1E4E8">(self, key, value):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Set configuration value"""</span></span>
+<span class="line"><span style="color:#E1E4E8">        config </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.get_config()</span></span>
+<span class="line"><span style="color:#E1E4E8">        config[key] </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> value</span></span>
+<span class="line"><span style="color:#E1E4E8">        </span></span>
+<span class="line"><span style="color:#E1E4E8">        os.makedirs(os.path.dirname(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.config_path), </span><span style="color:#FFAB70">exist_ok</span><span style="color:#F97583">=</span><span style="color:#79B8FF">True</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">        with</span><span style="color:#79B8FF"> open</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.config_path, </span><span style="color:#9ECBFF">'w'</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">as</span><span style="color:#E1E4E8"> f:</span></span>
+<span class="line"><span style="color:#E1E4E8">            json.dump(config, f, </span><span style="color:#FFAB70">indent</span><span style="color:#F97583">=</span><span style="color:#79B8FF">2</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> get_setting</span><span style="color:#E1E4E8">(self, key, default</span><span style="color:#F97583">=</span><span style="color:#79B8FF">None</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Get specific setting"""</span></span>
+<span class="line"><span style="color:#E1E4E8">        config </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.get_config()</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8"> config.get(key, default)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Example usage</span></span>
+<span class="line"><span style="color:#E1E4E8">config </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> MacbrewConfig()</span></span>
+<span class="line"><span style="color:#E1E4E8">theme </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> config.get_setting(</span><span style="color:#9ECBFF">'theme'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'default'</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">config.set_config(</span><span style="color:#9ECBFF">'theme'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'dark'</span><span style="color:#E1E4E8">)</span></span></code></pre>
+<h3 id="plugin-api">Plugin API</h3>
+<p>Manage plugins programmatically:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> os</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> json</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> subprocess</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">class</span><span style="color:#B392F0"> PluginManager</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#79B8FF"> __init__</span><span style="color:#E1E4E8">(self):</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.plugins_dir </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> os.path.expanduser(</span><span style="color:#9ECBFF">"~/.config/terminal-emulator/plugins"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> list_plugins</span><span style="color:#E1E4E8">(self):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """List installed plugins"""</span></span>
+<span class="line"><span style="color:#E1E4E8">        plugins </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> []</span></span>
+<span class="line"><span style="color:#E1E4E8">        </span></span>
+<span class="line"><span style="color:#F97583">        if</span><span style="color:#E1E4E8"> os.path.exists(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.plugins_dir):</span></span>
+<span class="line"><span style="color:#F97583">            for</span><span style="color:#E1E4E8"> plugin_name </span><span style="color:#F97583">in</span><span style="color:#E1E4E8"> os.listdir(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.plugins_dir):</span></span>
+<span class="line"><span style="color:#E1E4E8">                plugin_path </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> os.path.join(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.plugins_dir, plugin_name)</span></span>
+<span class="line"><span style="color:#F97583">                if</span><span style="color:#E1E4E8"> os.path.isdir(plugin_path):</span></span>
+<span class="line"><span style="color:#E1E4E8">                    manifest_path </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> os.path.join(plugin_path, </span><span style="color:#9ECBFF">'plugin.toml'</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">                    if</span><span style="color:#E1E4E8"> os.path.exists(manifest_path):</span></span>
+<span class="line"><span style="color:#E1E4E8">                        plugins.append({</span></span>
+<span class="line"><span style="color:#9ECBFF">                            'name'</span><span style="color:#E1E4E8">: plugin_name,</span></span>
+<span class="line"><span style="color:#9ECBFF">                            'path'</span><span style="color:#E1E4E8">: plugin_path,</span></span>
+<span class="line"><span style="color:#9ECBFF">                            'manifest'</span><span style="color:#E1E4E8">: manifest_path</span></span>
+<span class="line"><span style="color:#E1E4E8">                        })</span></span>
+<span class="line"><span style="color:#E1E4E8">        </span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8"> plugins</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> install_plugin</span><span style="color:#E1E4E8">(self, source):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Install a plugin"""</span></span>
+<span class="line"><span style="color:#E1E4E8">        cmd </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> [</span><span style="color:#9ECBFF">'macbrew'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'install-plugin'</span><span style="color:#E1E4E8">, source]</span></span>
+<span class="line"><span style="color:#E1E4E8">        result </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> subprocess.run(cmd, </span><span style="color:#FFAB70">capture_output</span><span style="color:#F97583">=</span><span style="color:#79B8FF">True</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">text</span><span style="color:#F97583">=</span><span style="color:#79B8FF">True</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8"> result.returncode </span><span style="color:#F97583">==</span><span style="color:#79B8FF"> 0</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> uninstall_plugin</span><span style="color:#E1E4E8">(self, plugin_name):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Uninstall a plugin"""</span></span>
+<span class="line"><span style="color:#E1E4E8">        cmd </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> [</span><span style="color:#9ECBFF">'macbrew'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'uninstall-plugin'</span><span style="color:#E1E4E8">, plugin_name]</span></span>
+<span class="line"><span style="color:#E1E4E8">        result </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> subprocess.run(cmd, </span><span style="color:#FFAB70">capture_output</span><span style="color:#F97583">=</span><span style="color:#79B8FF">True</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">text</span><span style="color:#F97583">=</span><span style="color:#79B8FF">True</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8"> result.returncode </span><span style="color:#F97583">==</span><span style="color:#79B8FF"> 0</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> enable_plugin</span><span style="color:#E1E4E8">(self, plugin_name):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Enable a plugin"""</span></span>
+<span class="line"><span style="color:#E1E4E8">        cmd </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> [</span><span style="color:#9ECBFF">'macbrew'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'enable-plugin'</span><span style="color:#E1E4E8">, plugin_name]</span></span>
+<span class="line"><span style="color:#E1E4E8">        result </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> subprocess.run(cmd, </span><span style="color:#FFAB70">capture_output</span><span style="color:#F97583">=</span><span style="color:#79B8FF">True</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">text</span><span style="color:#F97583">=</span><span style="color:#79B8FF">True</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8"> result.returncode </span><span style="color:#F97583">==</span><span style="color:#79B8FF"> 0</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> disable_plugin</span><span style="color:#E1E4E8">(self, plugin_name):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Disable a plugin"""</span></span>
+<span class="line"><span style="color:#E1E4E8">        cmd </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> [</span><span style="color:#9ECBFF">'macbrew'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'disable-plugin'</span><span style="color:#E1E4E8">, plugin_name]</span></span>
+<span class="line"><span style="color:#E1E4E8">        result </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> subprocess.run(cmd, </span><span style="color:#FFAB70">capture_output</span><span style="color:#F97583">=</span><span style="color:#79B8FF">True</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">text</span><span style="color:#F97583">=</span><span style="color:#79B8FF">True</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8"> result.returncode </span><span style="color:#F97583">==</span><span style="color:#79B8FF"> 0</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Example usage</span></span>
+<span class="line"><span style="color:#E1E4E8">pm </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> PluginManager()</span></span>
+<span class="line"><span style="color:#E1E4E8">plugins </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> pm.list_plugins()</span></span>
+<span class="line"><span style="color:#F97583">for</span><span style="color:#E1E4E8"> plugin </span><span style="color:#F97583">in</span><span style="color:#E1E4E8"> plugins:</span></span>
+<span class="line"><span style="color:#79B8FF">    print</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"Plugin: </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">plugin[</span><span style="color:#9ECBFF">'name'</span><span style="color:#E1E4E8">]</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">)</span></span></code></pre>
+<h2 id="plugin-development-api">Plugin Development API</h2>
+<h3 id="plugin-context">Plugin Context</h3>
+<p>Plugins have access to a context object with useful information:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> os</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> json</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> sys</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">class</span><span style="color:#B392F0"> PluginContext</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#79B8FF"> __init__</span><span style="color:#E1E4E8">(self, plugin_name):</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.plugin_name </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> plugin_name</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.plugin_dir </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> os.path.expanduser(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"~/.config/terminal-emulator/plugins/</span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">plugin_name</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.config_file </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> os.path.join(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.plugin_dir, </span><span style="color:#9ECBFF">'config.json'</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> get_config</span><span style="color:#E1E4E8">(self):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Get plugin configuration"""</span></span>
+<span class="line"><span style="color:#F97583">        if</span><span style="color:#E1E4E8"> os.path.exists(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.config_file):</span></span>
+<span class="line"><span style="color:#F97583">            with</span><span style="color:#79B8FF"> open</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.config_file, </span><span style="color:#9ECBFF">'r'</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">as</span><span style="color:#E1E4E8"> f:</span></span>
+<span class="line"><span style="color:#F97583">                return</span><span style="color:#E1E4E8"> json.load(f)</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8"> {}</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> set_config</span><span style="color:#E1E4E8">(self, key, value):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Set plugin configuration"""</span></span>
+<span class="line"><span style="color:#E1E4E8">        config </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.get_config()</span></span>
+<span class="line"><span style="color:#E1E4E8">        config[key] </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> value</span></span>
+<span class="line"><span style="color:#E1E4E8">        </span></span>
+<span class="line"><span style="color:#E1E4E8">        os.makedirs(os.path.dirname(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.config_file), </span><span style="color:#FFAB70">exist_ok</span><span style="color:#F97583">=</span><span style="color:#79B8FF">True</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">        with</span><span style="color:#79B8FF"> open</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.config_file, </span><span style="color:#9ECBFF">'w'</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">as</span><span style="color:#E1E4E8"> f:</span></span>
+<span class="line"><span style="color:#E1E4E8">            json.dump(config, f, </span><span style="color:#FFAB70">indent</span><span style="color:#F97583">=</span><span style="color:#79B8FF">2</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> get_macbrew_config</span><span style="color:#E1E4E8">(self):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Get main Macbrew configuration"""</span></span>
+<span class="line"><span style="color:#E1E4E8">        config_path </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> os.path.expanduser(</span><span style="color:#9ECBFF">"~/.config/terminal-emulator/config.json"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">        if</span><span style="color:#E1E4E8"> os.path.exists(config_path):</span></span>
+<span class="line"><span style="color:#F97583">            with</span><span style="color:#79B8FF"> open</span><span style="color:#E1E4E8">(config_path, </span><span style="color:#9ECBFF">'r'</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">as</span><span style="color:#E1E4E8"> f:</span></span>
+<span class="line"><span style="color:#F97583">                return</span><span style="color:#E1E4E8"> json.load(f)</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8"> {}</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> log</span><span style="color:#E1E4E8">(self, message, level</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">'info'</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Log a message"""</span></span>
+<span class="line"><span style="color:#E1E4E8">        log_file </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> os.path.expanduser(</span><span style="color:#9ECBFF">"~/.config/terminal-emulator/plugin.log"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">        timestamp </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> datetime.now().isoformat()</span></span>
+<span class="line"><span style="color:#E1E4E8">        </span></span>
+<span class="line"><span style="color:#F97583">        with</span><span style="color:#79B8FF"> open</span><span style="color:#E1E4E8">(log_file, </span><span style="color:#9ECBFF">'a'</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">as</span><span style="color:#E1E4E8"> f:</span></span>
+<span class="line"><span style="color:#E1E4E8">            f.write(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"[</span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">timestamp</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">] [</span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">level.upper()</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">] </span><span style="color:#79B8FF">{self</span><span style="color:#E1E4E8">.plugin_name</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">: </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">message</span><span style="color:#79B8FF">}\n</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Example usage in plugin</span></span>
+<span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> main</span><span style="color:#E1E4E8">():</span></span>
+<span class="line"><span style="color:#E1E4E8">    context </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> PluginContext(</span><span style="color:#9ECBFF">'my-plugin'</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    config </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> context.get_config()</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#6A737D">    # Use configuration</span></span>
+<span class="line"><span style="color:#E1E4E8">    api_key </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> config.get(</span><span style="color:#9ECBFF">'api_key'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">''</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#F97583"> not</span><span style="color:#E1E4E8"> api_key:</span></span>
+<span class="line"><span style="color:#E1E4E8">        context.log(</span><span style="color:#9ECBFF">"API key not configured"</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'warning'</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#79B8FF">        print</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">"Error: API key not configured"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">        return</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#6A737D">    # Your plugin logic here</span></span>
+<span class="line"><span style="color:#E1E4E8">    context.log(</span><span style="color:#9ECBFF">"Plugin executed successfully"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">if</span><span style="color:#79B8FF"> __name__</span><span style="color:#F97583"> ==</span><span style="color:#9ECBFF"> "__main__"</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    main()</span></span></code></pre>
+<h3 id="plugin-hooks">Plugin Hooks</h3>
+<p>Plugins can register hooks for various events:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> os</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> json</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">class</span><span style="color:#B392F0"> PluginHooks</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#79B8FF"> __init__</span><span style="color:#E1E4E8">(self, plugin_name):</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.plugin_name </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> plugin_name</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.hooks_dir </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> os.path.expanduser(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"~/.config/terminal-emulator/plugins/</span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">plugin_name</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">/hooks"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> register_hook</span><span style="color:#E1E4E8">(self, event, script_path):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Register a hook for an event"""</span></span>
+<span class="line"><span style="color:#E1E4E8">        hook_file </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> os.path.join(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.hooks_dir, </span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"</span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">event</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">.py"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">        </span></span>
+<span class="line"><span style="color:#E1E4E8">        os.makedirs(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.hooks_dir, </span><span style="color:#FFAB70">exist_ok</span><span style="color:#F97583">=</span><span style="color:#79B8FF">True</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">        </span></span>
+<span class="line"><span style="color:#6A737D">        # Create hook script if it doesn't exist</span></span>
+<span class="line"><span style="color:#F97583">        if</span><span style="color:#F97583"> not</span><span style="color:#E1E4E8"> os.path.exists(hook_file):</span></span>
+<span class="line"><span style="color:#F97583">            with</span><span style="color:#79B8FF"> open</span><span style="color:#E1E4E8">(hook_file, </span><span style="color:#9ECBFF">'w'</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">as</span><span style="color:#E1E4E8"> f:</span></span>
+<span class="line"><span style="color:#E1E4E8">                f.write(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">'''#!/usr/bin/env python3</span></span>
+<span class="line"><span style="color:#9ECBFF">import sys</span></span>
+<span class="line"><span style="color:#9ECBFF">import os</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#9ECBFF"># Add plugin directory to path</span></span>
+<span class="line"><span style="color:#9ECBFF">plugin_dir = os.path.dirname(os.path.dirname(__file__))</span></span>
+<span class="line"><span style="color:#9ECBFF">sys.path.insert(0, plugin_dir)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#9ECBFF"># Import your hook function</span></span>
+<span class="line"><span style="color:#9ECBFF">from </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">script_path</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF"> import hook_function</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#9ECBFF">if __name__ == "__main__":</span></span>
+<span class="line"><span style="color:#9ECBFF">    hook_function()</span></span>
+<span class="line"><span style="color:#9ECBFF">'''</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">        </span></span>
+<span class="line"><span style="color:#6A737D">        # Make executable</span></span>
+<span class="line"><span style="color:#E1E4E8">        os.chmod(hook_file, </span><span style="color:#F97583">0o</span><span style="color:#79B8FF">755</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> execute_hook</span><span style="color:#E1E4E8">(self, event, </span><span style="color:#F97583">*</span><span style="color:#E1E4E8">args):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Execute a hook"""</span></span>
+<span class="line"><span style="color:#E1E4E8">        hook_file </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> os.path.join(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.hooks_dir, </span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"</span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">event</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">.py"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">        </span></span>
+<span class="line"><span style="color:#F97583">        if</span><span style="color:#E1E4E8"> os.path.exists(hook_file):</span></span>
+<span class="line"><span style="color:#F97583">            import</span><span style="color:#E1E4E8"> subprocess</span></span>
+<span class="line"><span style="color:#E1E4E8">            result </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> subprocess.run([hook_file] </span><span style="color:#F97583">+</span><span style="color:#79B8FF"> list</span><span style="color:#E1E4E8">(args), </span><span style="color:#FFAB70">capture_output</span><span style="color:#F97583">=</span><span style="color:#79B8FF">True</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">text</span><span style="color:#F97583">=</span><span style="color:#79B8FF">True</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">            return</span><span style="color:#E1E4E8"> result.stdout, result.stderr, result.returncode</span></span>
+<span class="line"><span style="color:#E1E4E8">        </span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#9ECBFF"> ""</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">""</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">0</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Example hook implementation</span></span>
+<span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> startup_hook</span><span style="color:#E1E4E8">():</span></span>
+<span class="line"><span style="color:#9ECBFF">    """Hook executed when Macbrew starts"""</span></span>
+<span class="line"><span style="color:#79B8FF">    print</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">"My plugin is starting up!"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#6A737D">    # Initialize resources, load data, etc.</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> pre_command_hook</span><span style="color:#E1E4E8">(command, args):</span></span>
+<span class="line"><span style="color:#9ECBFF">    """Hook executed before each command"""</span></span>
+<span class="line"><span style="color:#79B8FF">    print</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"About to execute: </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">command</span><span style="color:#79B8FF">}</span><span style="color:#79B8FF"> {</span><span style="color:#9ECBFF">' '</span><span style="color:#E1E4E8">.join(args)</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#6A737D">    # Validate command, check permissions, etc.</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> post_command_hook</span><span style="color:#E1E4E8">(command, args, result):</span></span>
+<span class="line"><span style="color:#9ECBFF">    """Hook executed after each command"""</span></span>
+<span class="line"><span style="color:#79B8FF">    print</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"Command completed: </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">command</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF"> (exit code: </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">result</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">)"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#6A737D">    # Log command, update statistics, etc.</span></span></code></pre>
+<h2 id="terminal-interface-api">Terminal Interface API</h2>
+<h3 id="terminal-output">Terminal Output</h3>
+<p>Control terminal output and formatting:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> sys</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> os</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">class</span><span style="color:#B392F0"> TerminalOutput</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#6A737D">    # ANSI color codes</span></span>
+<span class="line"><span style="color:#79B8FF">    COLORS</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#9ECBFF">        'black'</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">'</span><span style="color:#79B8FF">\033</span><span style="color:#9ECBFF">[30m'</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        'red'</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">'</span><span style="color:#79B8FF">\033</span><span style="color:#9ECBFF">[31m'</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        'green'</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">'</span><span style="color:#79B8FF">\033</span><span style="color:#9ECBFF">[32m'</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        'yellow'</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">'</span><span style="color:#79B8FF">\033</span><span style="color:#9ECBFF">[33m'</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        'blue'</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">'</span><span style="color:#79B8FF">\033</span><span style="color:#9ECBFF">[34m'</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        'magenta'</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">'</span><span style="color:#79B8FF">\033</span><span style="color:#9ECBFF">[35m'</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        'cyan'</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">'</span><span style="color:#79B8FF">\033</span><span style="color:#9ECBFF">[36m'</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        'white'</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">'</span><span style="color:#79B8FF">\033</span><span style="color:#9ECBFF">[37m'</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        'reset'</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">'</span><span style="color:#79B8FF">\033</span><span style="color:#9ECBFF">[0m'</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        'bold'</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">'</span><span style="color:#79B8FF">\033</span><span style="color:#9ECBFF">[1m'</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        'underline'</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">'</span><span style="color:#79B8FF">\033</span><span style="color:#9ECBFF">[4m'</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#B392F0">    @</span><span style="color:#79B8FF">classmethod</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> colorize</span><span style="color:#E1E4E8">(cls, text, color</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">'white'</span><span style="color:#E1E4E8">, bold</span><span style="color:#F97583">=</span><span style="color:#79B8FF">False</span><span style="color:#E1E4E8">, underline</span><span style="color:#F97583">=</span><span style="color:#79B8FF">False</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Add color and formatting to text"""</span></span>
+<span class="line"><span style="color:#E1E4E8">        codes </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> [</span><span style="color:#79B8FF">cls</span><span style="color:#E1E4E8">.</span><span style="color:#79B8FF">COLORS</span><span style="color:#E1E4E8">[color]]</span></span>
+<span class="line"><span style="color:#E1E4E8">        </span></span>
+<span class="line"><span style="color:#F97583">        if</span><span style="color:#E1E4E8"> bold:</span></span>
+<span class="line"><span style="color:#E1E4E8">            codes.append(</span><span style="color:#79B8FF">cls</span><span style="color:#E1E4E8">.</span><span style="color:#79B8FF">COLORS</span><span style="color:#E1E4E8">[</span><span style="color:#9ECBFF">'bold'</span><span style="color:#E1E4E8">])</span></span>
+<span class="line"><span style="color:#F97583">        if</span><span style="color:#E1E4E8"> underline:</span></span>
+<span class="line"><span style="color:#E1E4E8">            codes.append(</span><span style="color:#79B8FF">cls</span><span style="color:#E1E4E8">.</span><span style="color:#79B8FF">COLORS</span><span style="color:#E1E4E8">[</span><span style="color:#9ECBFF">'underline'</span><span style="color:#E1E4E8">])</span></span>
+<span class="line"><span style="color:#E1E4E8">        </span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#9ECBFF"> ''</span><span style="color:#E1E4E8">.join(codes) </span><span style="color:#F97583">+</span><span style="color:#E1E4E8"> text </span><span style="color:#F97583">+</span><span style="color:#79B8FF"> cls</span><span style="color:#E1E4E8">.</span><span style="color:#79B8FF">COLORS</span><span style="color:#E1E4E8">[</span><span style="color:#9ECBFF">'reset'</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#B392F0">    @</span><span style="color:#79B8FF">classmethod</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> print_success</span><span style="color:#E1E4E8">(cls, message):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Print success message"""</span></span>
+<span class="line"><span style="color:#79B8FF">        print</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">cls</span><span style="color:#E1E4E8">.colorize(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"✓ </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">message</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'green'</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">bold</span><span style="color:#F97583">=</span><span style="color:#79B8FF">True</span><span style="color:#E1E4E8">))</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#B392F0">    @</span><span style="color:#79B8FF">classmethod</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> print_error</span><span style="color:#E1E4E8">(cls, message):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Print error message"""</span></span>
+<span class="line"><span style="color:#79B8FF">        print</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">cls</span><span style="color:#E1E4E8">.colorize(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"✗ </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">message</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'red'</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">bold</span><span style="color:#F97583">=</span><span style="color:#79B8FF">True</span><span style="color:#E1E4E8">))</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#B392F0">    @</span><span style="color:#79B8FF">classmethod</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> print_warning</span><span style="color:#E1E4E8">(cls, message):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Print warning message"""</span></span>
+<span class="line"><span style="color:#79B8FF">        print</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">cls</span><span style="color:#E1E4E8">.colorize(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"⚠ </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">message</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'yellow'</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">bold</span><span style="color:#F97583">=</span><span style="color:#79B8FF">True</span><span style="color:#E1E4E8">))</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#B392F0">    @</span><span style="color:#79B8FF">classmethod</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> print_info</span><span style="color:#E1E4E8">(cls, message):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Print info message"""</span></span>
+<span class="line"><span style="color:#79B8FF">        print</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">cls</span><span style="color:#E1E4E8">.colorize(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"ℹ </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">message</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'blue'</span><span style="color:#E1E4E8">))</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#B392F0">    @</span><span style="color:#79B8FF">classmethod</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> progress_bar</span><span style="color:#E1E4E8">(cls, current, total, width</span><span style="color:#F97583">=</span><span style="color:#79B8FF">50</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Display a progress bar"""</span></span>
+<span class="line"><span style="color:#E1E4E8">        progress </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> int</span><span style="color:#E1E4E8">(width </span><span style="color:#F97583">*</span><span style="color:#E1E4E8"> current </span><span style="color:#F97583">/</span><span style="color:#E1E4E8"> total)</span></span>
+<span class="line"><span style="color:#E1E4E8">        bar </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> '█'</span><span style="color:#F97583"> *</span><span style="color:#E1E4E8"> progress </span><span style="color:#F97583">+</span><span style="color:#9ECBFF"> '░'</span><span style="color:#F97583"> *</span><span style="color:#E1E4E8"> (width </span><span style="color:#F97583">-</span><span style="color:#E1E4E8"> progress)</span></span>
+<span class="line"><span style="color:#E1E4E8">        percentage </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> int</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">100</span><span style="color:#F97583"> *</span><span style="color:#E1E4E8"> current </span><span style="color:#F97583">/</span><span style="color:#E1E4E8"> total)</span></span>
+<span class="line"><span style="color:#E1E4E8">        </span></span>
+<span class="line"><span style="color:#E1E4E8">        sys.stdout.write(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">'</span><span style="color:#79B8FF">\r</span><span style="color:#9ECBFF">[</span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">bar</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">] </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">percentage</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">%'</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">        sys.stdout.flush()</span></span>
+<span class="line"><span style="color:#E1E4E8">        </span></span>
+<span class="line"><span style="color:#F97583">        if</span><span style="color:#E1E4E8"> current </span><span style="color:#F97583">==</span><span style="color:#E1E4E8"> total:</span></span>
+<span class="line"><span style="color:#79B8FF">            print</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Example usage</span></span>
+<span class="line"><span style="color:#E1E4E8">TerminalOutput.print_success(</span><span style="color:#9ECBFF">"Operation completed successfully!"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">TerminalOutput.print_error(</span><span style="color:#9ECBFF">"Something went wrong!"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">TerminalOutput.print_warning(</span><span style="color:#9ECBFF">"Please check your configuration"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">TerminalOutput.print_info(</span><span style="color:#9ECBFF">"Processing data..."</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Progress bar example</span></span>
+<span class="line"><span style="color:#F97583">for</span><span style="color:#E1E4E8"> i </span><span style="color:#F97583">in</span><span style="color:#79B8FF"> range</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">101</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#E1E4E8">    TerminalOutput.progress_bar(i, </span><span style="color:#79B8FF">100</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">    import</span><span style="color:#E1E4E8"> time</span></span>
+<span class="line"><span style="color:#E1E4E8">    time.sleep(</span><span style="color:#79B8FF">0.1</span><span style="color:#E1E4E8">)</span></span></code></pre>
+<h3 id="input-handling">Input Handling</h3>
+<p>Handle user input and prompts:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> sys</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> getpass</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">class</span><span style="color:#B392F0"> TerminalInput</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#B392F0">    @</span><span style="color:#79B8FF">staticmethod</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> prompt</span><span style="color:#E1E4E8">(message, default</span><span style="color:#F97583">=</span><span style="color:#79B8FF">None</span><span style="color:#E1E4E8">, required</span><span style="color:#F97583">=</span><span style="color:#79B8FF">False</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Prompt for user input"""</span></span>
+<span class="line"><span style="color:#F97583">        if</span><span style="color:#E1E4E8"> default:</span></span>
+<span class="line"><span style="color:#E1E4E8">            message </span><span style="color:#F97583">=</span><span style="color:#F97583"> f</span><span style="color:#9ECBFF">"</span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">message</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF"> [</span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">default</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">]: "</span></span>
+<span class="line"><span style="color:#F97583">        else</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">            message </span><span style="color:#F97583">=</span><span style="color:#F97583"> f</span><span style="color:#9ECBFF">"</span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">message</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">: "</span></span>
+<span class="line"><span style="color:#E1E4E8">        </span></span>
+<span class="line"><span style="color:#F97583">        while</span><span style="color:#79B8FF"> True</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#F97583">            try</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">                value </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> input</span><span style="color:#E1E4E8">(message).strip()</span></span>
+<span class="line"><span style="color:#E1E4E8">                </span></span>
+<span class="line"><span style="color:#F97583">                if</span><span style="color:#F97583"> not</span><span style="color:#E1E4E8"> value </span><span style="color:#F97583">and</span><span style="color:#E1E4E8"> default:</span></span>
+<span class="line"><span style="color:#E1E4E8">                    value </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> default</span></span>
+<span class="line"><span style="color:#E1E4E8">                </span></span>
+<span class="line"><span style="color:#F97583">                if</span><span style="color:#E1E4E8"> required </span><span style="color:#F97583">and</span><span style="color:#F97583"> not</span><span style="color:#E1E4E8"> value:</span></span>
+<span class="line"><span style="color:#79B8FF">                    print</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">"This field is required."</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">                    continue</span></span>
+<span class="line"><span style="color:#E1E4E8">                </span></span>
+<span class="line"><span style="color:#F97583">                return</span><span style="color:#E1E4E8"> value</span></span>
+<span class="line"><span style="color:#F97583">            except</span><span style="color:#79B8FF"> KeyboardInterrupt</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#79B8FF">                print</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">"</span><span style="color:#79B8FF">\n</span><span style="color:#9ECBFF">Operation cancelled."</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">                sys.exit(</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#B392F0">    @</span><span style="color:#79B8FF">staticmethod</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> password_prompt</span><span style="color:#E1E4E8">(message</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"Enter password"</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Prompt for password (hidden input)"""</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8"> getpass.getpass(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"</span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">message</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">: "</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#B392F0">    @</span><span style="color:#79B8FF">staticmethod</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> confirm</span><span style="color:#E1E4E8">(message</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"Are you sure?"</span><span style="color:#E1E4E8">, default</span><span style="color:#F97583">=</span><span style="color:#79B8FF">False</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Confirm an action"""</span></span>
+<span class="line"><span style="color:#E1E4E8">        default_text </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> "Y/n"</span><span style="color:#F97583"> if</span><span style="color:#E1E4E8"> default </span><span style="color:#F97583">else</span><span style="color:#9ECBFF"> "y/N"</span></span>
+<span class="line"><span style="color:#E1E4E8">        message </span><span style="color:#F97583">=</span><span style="color:#F97583"> f</span><span style="color:#9ECBFF">"</span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">message</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF"> [</span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">default_text</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">]: "</span></span>
+<span class="line"><span style="color:#E1E4E8">        </span></span>
+<span class="line"><span style="color:#F97583">        while</span><span style="color:#79B8FF"> True</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">            response </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> input</span><span style="color:#E1E4E8">(message).strip().lower()</span></span>
+<span class="line"><span style="color:#E1E4E8">            </span></span>
+<span class="line"><span style="color:#F97583">            if</span><span style="color:#F97583"> not</span><span style="color:#E1E4E8"> response:</span></span>
+<span class="line"><span style="color:#F97583">                return</span><span style="color:#E1E4E8"> default</span></span>
+<span class="line"><span style="color:#E1E4E8">            </span></span>
+<span class="line"><span style="color:#F97583">            if</span><span style="color:#E1E4E8"> response </span><span style="color:#F97583">in</span><span style="color:#E1E4E8"> [</span><span style="color:#9ECBFF">'y'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'yes'</span><span style="color:#E1E4E8">]:</span></span>
+<span class="line"><span style="color:#F97583">                return</span><span style="color:#79B8FF"> True</span></span>
+<span class="line"><span style="color:#F97583">            elif</span><span style="color:#E1E4E8"> response </span><span style="color:#F97583">in</span><span style="color:#E1E4E8"> [</span><span style="color:#9ECBFF">'n'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'no'</span><span style="color:#E1E4E8">]:</span></span>
+<span class="line"><span style="color:#F97583">                return</span><span style="color:#79B8FF"> False</span></span>
+<span class="line"><span style="color:#F97583">            else</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#79B8FF">                print</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">"Please enter 'y' or 'n'"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Example usage</span></span>
+<span class="line"><span style="color:#E1E4E8">name </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> TerminalInput.prompt(</span><span style="color:#9ECBFF">"Enter your name"</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">default</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"Anonymous"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">password </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> TerminalInput.password_prompt(</span><span style="color:#9ECBFF">"Enter your password"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">confirm_delete </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> TerminalInput.confirm(</span><span style="color:#9ECBFF">"Delete this file?"</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">default</span><span style="color:#F97583">=</span><span style="color:#79B8FF">False</span><span style="color:#E1E4E8">)</span></span></code></pre>
+<h2 id="file-system-api">File System API</h2>
+<h3 id="file-operations">File Operations</h3>
+<p>Safe file operations with error handling:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> os</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> shutil</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> json</span></span>
+<span class="line"><span style="color:#F97583">from</span><span style="color:#E1E4E8"> pathlib </span><span style="color:#F97583">import</span><span style="color:#E1E4E8"> Path</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">class</span><span style="color:#B392F0"> FileSystem</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#B392F0">    @</span><span style="color:#79B8FF">staticmethod</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> safe_read</span><span style="color:#E1E4E8">(file_path, default</span><span style="color:#F97583">=</span><span style="color:#79B8FF">None</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Safely read a file"""</span></span>
+<span class="line"><span style="color:#F97583">        try</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#F97583">            with</span><span style="color:#79B8FF"> open</span><span style="color:#E1E4E8">(file_path, </span><span style="color:#9ECBFF">'r'</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">encoding</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">'utf-8'</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">as</span><span style="color:#E1E4E8"> f:</span></span>
+<span class="line"><span style="color:#F97583">                return</span><span style="color:#E1E4E8"> f.read()</span></span>
+<span class="line"><span style="color:#F97583">        except</span><span style="color:#E1E4E8"> (</span><span style="color:#79B8FF">FileNotFoundError</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">PermissionError</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">UnicodeDecodeError</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#F97583">            return</span><span style="color:#E1E4E8"> default</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#B392F0">    @</span><span style="color:#79B8FF">staticmethod</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> safe_write</span><span style="color:#E1E4E8">(file_path, content, create_dirs</span><span style="color:#F97583">=</span><span style="color:#79B8FF">True</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Safely write to a file"""</span></span>
+<span class="line"><span style="color:#F97583">        try</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#F97583">            if</span><span style="color:#E1E4E8"> create_dirs:</span></span>
+<span class="line"><span style="color:#E1E4E8">                os.makedirs(os.path.dirname(file_path), </span><span style="color:#FFAB70">exist_ok</span><span style="color:#F97583">=</span><span style="color:#79B8FF">True</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">            </span></span>
+<span class="line"><span style="color:#F97583">            with</span><span style="color:#79B8FF"> open</span><span style="color:#E1E4E8">(file_path, </span><span style="color:#9ECBFF">'w'</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">encoding</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">'utf-8'</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">as</span><span style="color:#E1E4E8"> f:</span></span>
+<span class="line"><span style="color:#E1E4E8">                f.write(content)</span></span>
+<span class="line"><span style="color:#F97583">            return</span><span style="color:#79B8FF"> True</span></span>
+<span class="line"><span style="color:#F97583">        except</span><span style="color:#E1E4E8"> (</span><span style="color:#79B8FF">PermissionError</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">OSError</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#F97583">            return</span><span style="color:#79B8FF"> False</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#B392F0">    @</span><span style="color:#79B8FF">staticmethod</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> safe_json_read</span><span style="color:#E1E4E8">(file_path, default</span><span style="color:#F97583">=</span><span style="color:#79B8FF">None</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Safely read JSON file"""</span></span>
+<span class="line"><span style="color:#F97583">        try</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#F97583">            with</span><span style="color:#79B8FF"> open</span><span style="color:#E1E4E8">(file_path, </span><span style="color:#9ECBFF">'r'</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">encoding</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">'utf-8'</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">as</span><span style="color:#E1E4E8"> f:</span></span>
+<span class="line"><span style="color:#F97583">                return</span><span style="color:#E1E4E8"> json.load(f)</span></span>
+<span class="line"><span style="color:#F97583">        except</span><span style="color:#E1E4E8"> (</span><span style="color:#79B8FF">FileNotFoundError</span><span style="color:#E1E4E8">, json.JSONDecodeError):</span></span>
+<span class="line"><span style="color:#F97583">            return</span><span style="color:#E1E4E8"> default </span><span style="color:#F97583">or</span><span style="color:#E1E4E8"> {}</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#B392F0">    @</span><span style="color:#79B8FF">staticmethod</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> safe_json_write</span><span style="color:#E1E4E8">(file_path, data, create_dirs</span><span style="color:#F97583">=</span><span style="color:#79B8FF">True</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Safely write JSON file"""</span></span>
+<span class="line"><span style="color:#F97583">        try</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#F97583">            if</span><span style="color:#E1E4E8"> create_dirs:</span></span>
+<span class="line"><span style="color:#E1E4E8">                os.makedirs(os.path.dirname(file_path), </span><span style="color:#FFAB70">exist_ok</span><span style="color:#F97583">=</span><span style="color:#79B8FF">True</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">            </span></span>
+<span class="line"><span style="color:#F97583">            with</span><span style="color:#79B8FF"> open</span><span style="color:#E1E4E8">(file_path, </span><span style="color:#9ECBFF">'w'</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">encoding</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">'utf-8'</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">as</span><span style="color:#E1E4E8"> f:</span></span>
+<span class="line"><span style="color:#E1E4E8">                json.dump(data, f, </span><span style="color:#FFAB70">indent</span><span style="color:#F97583">=</span><span style="color:#79B8FF">2</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">ensure_ascii</span><span style="color:#F97583">=</span><span style="color:#79B8FF">False</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">            return</span><span style="color:#79B8FF"> True</span></span>
+<span class="line"><span style="color:#F97583">        except</span><span style="color:#E1E4E8"> (</span><span style="color:#79B8FF">PermissionError</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">OSError</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#F97583">            return</span><span style="color:#79B8FF"> False</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#B392F0">    @</span><span style="color:#79B8FF">staticmethod</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> find_files</span><span style="color:#E1E4E8">(pattern, start_path</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"."</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Find files matching pattern"""</span></span>
+<span class="line"><span style="color:#E1E4E8">        matches </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> []</span></span>
+<span class="line"><span style="color:#E1E4E8">        start_path </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> Path(start_path)</span></span>
+<span class="line"><span style="color:#E1E4E8">        </span></span>
+<span class="line"><span style="color:#F97583">        for</span><span style="color:#E1E4E8"> file_path </span><span style="color:#F97583">in</span><span style="color:#E1E4E8"> start_path.rglob(pattern):</span></span>
+<span class="line"><span style="color:#F97583">            if</span><span style="color:#E1E4E8"> file_path.is_file():</span></span>
+<span class="line"><span style="color:#E1E4E8">                matches.append(</span><span style="color:#79B8FF">str</span><span style="color:#E1E4E8">(file_path))</span></span>
+<span class="line"><span style="color:#E1E4E8">        </span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8"> matches</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#B392F0">    @</span><span style="color:#79B8FF">staticmethod</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> backup_file</span><span style="color:#E1E4E8">(file_path, suffix</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">".backup"</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Create a backup of a file"""</span></span>
+<span class="line"><span style="color:#F97583">        if</span><span style="color:#F97583"> not</span><span style="color:#E1E4E8"> os.path.exists(file_path):</span></span>
+<span class="line"><span style="color:#F97583">            return</span><span style="color:#79B8FF"> False</span></span>
+<span class="line"><span style="color:#E1E4E8">        </span></span>
+<span class="line"><span style="color:#E1E4E8">        backup_path </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> file_path </span><span style="color:#F97583">+</span><span style="color:#E1E4E8"> suffix</span></span>
+<span class="line"><span style="color:#F97583">        try</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">            shutil.copy2(file_path, backup_path)</span></span>
+<span class="line"><span style="color:#F97583">            return</span><span style="color:#79B8FF"> True</span></span>
+<span class="line"><span style="color:#F97583">        except</span><span style="color:#E1E4E8"> (</span><span style="color:#79B8FF">PermissionError</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">OSError</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#F97583">            return</span><span style="color:#79B8FF"> False</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Example usage</span></span>
+<span class="line"><span style="color:#E1E4E8">content </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> FileSystem.safe_read(</span><span style="color:#9ECBFF">"/path/to/file.txt"</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">"Default content"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">success </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> FileSystem.safe_write(</span><span style="color:#9ECBFF">"/path/to/output.txt"</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">"Hello, World!"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">config </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> FileSystem.safe_json_read(</span><span style="color:#9ECBFF">"/path/to/config.json"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">FileSystem.safe_json_write(</span><span style="color:#9ECBFF">"/path/to/config.json"</span><span style="color:#E1E4E8">, {</span><span style="color:#9ECBFF">"key"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"value"</span><span style="color:#E1E4E8">})</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">files </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> FileSystem.find_files(</span><span style="color:#9ECBFF">"*.py"</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">"/path/to/project"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">FileSystem.backup_file(</span><span style="color:#9ECBFF">"/path/to/important.txt"</span><span style="color:#E1E4E8">)</span></span></code></pre>
+<h2 id="network-api">Network API</h2>
+<h3 id="http-requests">HTTP Requests</h3>
+<p>Simple HTTP client for plugins:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> requests</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> json</span></span>
+<span class="line"><span style="color:#F97583">from</span><span style="color:#E1E4E8"> urllib.parse </span><span style="color:#F97583">import</span><span style="color:#E1E4E8"> urljoin</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">class</span><span style="color:#B392F0"> HTTPClient</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#79B8FF"> __init__</span><span style="color:#E1E4E8">(self, base_url</span><span style="color:#F97583">=</span><span style="color:#79B8FF">None</span><span style="color:#E1E4E8">, timeout</span><span style="color:#F97583">=</span><span style="color:#79B8FF">30</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.base_url </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> base_url</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.timeout </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> timeout</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.session </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> requests.Session()</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> get</span><span style="color:#E1E4E8">(self, url, params</span><span style="color:#F97583">=</span><span style="color:#79B8FF">None</span><span style="color:#E1E4E8">, headers</span><span style="color:#F97583">=</span><span style="color:#79B8FF">None</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Make GET request"""</span></span>
+<span class="line"><span style="color:#F97583">        if</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.base_url:</span></span>
+<span class="line"><span style="color:#E1E4E8">            url </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> urljoin(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.base_url, url)</span></span>
+<span class="line"><span style="color:#E1E4E8">        </span></span>
+<span class="line"><span style="color:#F97583">        try</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">            response </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.session.get(url, </span><span style="color:#FFAB70">params</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">params, </span><span style="color:#FFAB70">headers</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">headers, </span><span style="color:#FFAB70">timeout</span><span style="color:#F97583">=</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.timeout)</span></span>
+<span class="line"><span style="color:#E1E4E8">            response.raise_for_status()</span></span>
+<span class="line"><span style="color:#F97583">            return</span><span style="color:#E1E4E8"> response</span></span>
+<span class="line"><span style="color:#F97583">        except</span><span style="color:#E1E4E8"> requests.RequestException </span><span style="color:#F97583">as</span><span style="color:#E1E4E8"> e:</span></span>
+<span class="line"><span style="color:#F97583">            raise</span><span style="color:#E1E4E8"> HTTPError(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"GET request failed: </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">e</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> post</span><span style="color:#E1E4E8">(self, url, data</span><span style="color:#F97583">=</span><span style="color:#79B8FF">None</span><span style="color:#E1E4E8">, json_data</span><span style="color:#F97583">=</span><span style="color:#79B8FF">None</span><span style="color:#E1E4E8">, headers</span><span style="color:#F97583">=</span><span style="color:#79B8FF">None</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Make POST request"""</span></span>
+<span class="line"><span style="color:#F97583">        if</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.base_url:</span></span>
+<span class="line"><span style="color:#E1E4E8">            url </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> urljoin(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.base_url, url)</span></span>
+<span class="line"><span style="color:#E1E4E8">        </span></span>
+<span class="line"><span style="color:#F97583">        try</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">            response </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.session.post(url, </span><span style="color:#FFAB70">data</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">data, </span><span style="color:#FFAB70">json</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">json_data, </span><span style="color:#FFAB70">headers</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">headers, </span><span style="color:#FFAB70">timeout</span><span style="color:#F97583">=</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.timeout)</span></span>
+<span class="line"><span style="color:#E1E4E8">            response.raise_for_status()</span></span>
+<span class="line"><span style="color:#F97583">            return</span><span style="color:#E1E4E8"> response</span></span>
+<span class="line"><span style="color:#F97583">        except</span><span style="color:#E1E4E8"> requests.RequestException </span><span style="color:#F97583">as</span><span style="color:#E1E4E8"> e:</span></span>
+<span class="line"><span style="color:#F97583">            raise</span><span style="color:#E1E4E8"> HTTPError(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"POST request failed: </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">e</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> download_file</span><span style="color:#E1E4E8">(self, url, file_path):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Download a file"""</span></span>
+<span class="line"><span style="color:#F97583">        if</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.base_url:</span></span>
+<span class="line"><span style="color:#E1E4E8">            url </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> urljoin(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.base_url, url)</span></span>
+<span class="line"><span style="color:#E1E4E8">        </span></span>
+<span class="line"><span style="color:#F97583">        try</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">            response </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.session.get(url, </span><span style="color:#FFAB70">stream</span><span style="color:#F97583">=</span><span style="color:#79B8FF">True</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">timeout</span><span style="color:#F97583">=</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.timeout)</span></span>
+<span class="line"><span style="color:#E1E4E8">            response.raise_for_status()</span></span>
+<span class="line"><span style="color:#E1E4E8">            </span></span>
+<span class="line"><span style="color:#F97583">            with</span><span style="color:#79B8FF"> open</span><span style="color:#E1E4E8">(file_path, </span><span style="color:#9ECBFF">'wb'</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">as</span><span style="color:#E1E4E8"> f:</span></span>
+<span class="line"><span style="color:#F97583">                for</span><span style="color:#E1E4E8"> chunk </span><span style="color:#F97583">in</span><span style="color:#E1E4E8"> response.iter_content(</span><span style="color:#FFAB70">chunk_size</span><span style="color:#F97583">=</span><span style="color:#79B8FF">8192</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#E1E4E8">                    f.write(chunk)</span></span>
+<span class="line"><span style="color:#E1E4E8">            </span></span>
+<span class="line"><span style="color:#F97583">            return</span><span style="color:#79B8FF"> True</span></span>
+<span class="line"><span style="color:#F97583">        except</span><span style="color:#E1E4E8"> requests.RequestException </span><span style="color:#F97583">as</span><span style="color:#E1E4E8"> e:</span></span>
+<span class="line"><span style="color:#F97583">            raise</span><span style="color:#E1E4E8"> HTTPError(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"Download failed: </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">e</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">class</span><span style="color:#B392F0"> HTTPError</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">Exception</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#F97583">    pass</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Example usage</span></span>
+<span class="line"><span style="color:#E1E4E8">client </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> HTTPClient(</span><span style="color:#9ECBFF">"https://api.example.com"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">try</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#6A737D">    # GET request</span></span>
+<span class="line"><span style="color:#E1E4E8">    response </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> client.get(</span><span style="color:#9ECBFF">"/users"</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">params</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">{</span><span style="color:#9ECBFF">"page"</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">})</span></span>
+<span class="line"><span style="color:#E1E4E8">    users </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> response.json()</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#6A737D">    # POST request</span></span>
+<span class="line"><span style="color:#E1E4E8">    data </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> {</span><span style="color:#9ECBFF">"name"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"John"</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">"email"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"john@example.com"</span><span style="color:#E1E4E8">}</span></span>
+<span class="line"><span style="color:#E1E4E8">    response </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> client.post(</span><span style="color:#9ECBFF">"/users"</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">json_data</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">data)</span></span>
+<span class="line"><span style="color:#E1E4E8">    new_user </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> response.json()</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#6A737D">    # Download file</span></span>
+<span class="line"><span style="color:#E1E4E8">    client.download_file(</span><span style="color:#9ECBFF">"/files/document.pdf"</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">"document.pdf"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">except</span><span style="color:#E1E4E8"> HTTPError </span><span style="color:#F97583">as</span><span style="color:#E1E4E8"> e:</span></span>
+<span class="line"><span style="color:#79B8FF">    print</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"HTTP Error: </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">e</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">)</span></span></code></pre>
+<h2 id="utility-functions">Utility Functions</h2>
+<h3 id="common-utilities">Common Utilities</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> hashlib</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> base64</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> uuid</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> time</span></span>
+<span class="line"><span style="color:#F97583">from</span><span style="color:#E1E4E8"> datetime </span><span style="color:#F97583">import</span><span style="color:#E1E4E8"> datetime</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">class</span><span style="color:#B392F0"> Utilities</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#B392F0">    @</span><span style="color:#79B8FF">staticmethod</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> generate_id</span><span style="color:#E1E4E8">():</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Generate a unique ID"""</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#79B8FF"> str</span><span style="color:#E1E4E8">(uuid.uuid4())</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#B392F0">    @</span><span style="color:#79B8FF">staticmethod</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> hash_string</span><span style="color:#E1E4E8">(text, algorithm</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">'sha256'</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Hash a string"""</span></span>
+<span class="line"><span style="color:#E1E4E8">        hash_func </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> getattr</span><span style="color:#E1E4E8">(hashlib, algorithm)()</span></span>
+<span class="line"><span style="color:#E1E4E8">        hash_func.update(text.encode(</span><span style="color:#9ECBFF">'utf-8'</span><span style="color:#E1E4E8">))</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8"> hash_func.hexdigest()</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#B392F0">    @</span><span style="color:#79B8FF">staticmethod</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> encode_base64</span><span style="color:#E1E4E8">(data):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Encode data to base64"""</span></span>
+<span class="line"><span style="color:#F97583">        if</span><span style="color:#79B8FF"> isinstance</span><span style="color:#E1E4E8">(data, </span><span style="color:#79B8FF">str</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#E1E4E8">            data </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> data.encode(</span><span style="color:#9ECBFF">'utf-8'</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8"> base64.b64encode(data).decode(</span><span style="color:#9ECBFF">'utf-8'</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#B392F0">    @</span><span style="color:#79B8FF">staticmethod</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> decode_base64</span><span style="color:#E1E4E8">(data):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Decode base64 data"""</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8"> base64.b64decode(data).decode(</span><span style="color:#9ECBFF">'utf-8'</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#B392F0">    @</span><span style="color:#79B8FF">staticmethod</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> format_bytes</span><span style="color:#E1E4E8">(bytes_value):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Format bytes to human readable format"""</span></span>
+<span class="line"><span style="color:#F97583">        for</span><span style="color:#E1E4E8"> unit </span><span style="color:#F97583">in</span><span style="color:#E1E4E8"> [</span><span style="color:#9ECBFF">'B'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'KB'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'MB'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'GB'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'TB'</span><span style="color:#E1E4E8">]:</span></span>
+<span class="line"><span style="color:#F97583">            if</span><span style="color:#E1E4E8"> bytes_value </span><span style="color:#F97583">&#x3C;</span><span style="color:#79B8FF"> 1024.0</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#F97583">                return</span><span style="color:#F97583"> f</span><span style="color:#9ECBFF">"</span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">bytes_value</span><span style="color:#F97583">:.1f</span><span style="color:#79B8FF">}</span><span style="color:#79B8FF"> {</span><span style="color:#E1E4E8">unit</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span></span>
+<span class="line"><span style="color:#E1E4E8">            bytes_value </span><span style="color:#F97583">/=</span><span style="color:#79B8FF"> 1024.0</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#F97583"> f</span><span style="color:#9ECBFF">"</span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">bytes_value</span><span style="color:#F97583">:.1f</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF"> PB"</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#B392F0">    @</span><span style="color:#79B8FF">staticmethod</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> format_duration</span><span style="color:#E1E4E8">(seconds):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Format duration in seconds to human readable format"""</span></span>
+<span class="line"><span style="color:#F97583">        if</span><span style="color:#E1E4E8"> seconds </span><span style="color:#F97583">&#x3C;</span><span style="color:#79B8FF"> 60</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#F97583">            return</span><span style="color:#F97583"> f</span><span style="color:#9ECBFF">"</span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">seconds</span><span style="color:#F97583">:.1f</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">s"</span></span>
+<span class="line"><span style="color:#F97583">        elif</span><span style="color:#E1E4E8"> seconds </span><span style="color:#F97583">&#x3C;</span><span style="color:#79B8FF"> 3600</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">            minutes </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> seconds </span><span style="color:#F97583">/</span><span style="color:#79B8FF"> 60</span></span>
+<span class="line"><span style="color:#F97583">            return</span><span style="color:#F97583"> f</span><span style="color:#9ECBFF">"</span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">minutes</span><span style="color:#F97583">:.1f</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">m"</span></span>
+<span class="line"><span style="color:#F97583">        elif</span><span style="color:#E1E4E8"> seconds </span><span style="color:#F97583">&#x3C;</span><span style="color:#79B8FF"> 86400</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">            hours </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> seconds </span><span style="color:#F97583">/</span><span style="color:#79B8FF"> 3600</span></span>
+<span class="line"><span style="color:#F97583">            return</span><span style="color:#F97583"> f</span><span style="color:#9ECBFF">"</span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">hours</span><span style="color:#F97583">:.1f</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">h"</span></span>
+<span class="line"><span style="color:#F97583">        else</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">            days </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> seconds </span><span style="color:#F97583">/</span><span style="color:#79B8FF"> 86400</span></span>
+<span class="line"><span style="color:#F97583">            return</span><span style="color:#F97583"> f</span><span style="color:#9ECBFF">"</span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">days</span><span style="color:#F97583">:.1f</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">d"</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#B392F0">    @</span><span style="color:#79B8FF">staticmethod</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> retry</span><span style="color:#E1E4E8">(func, max_attempts</span><span style="color:#F97583">=</span><span style="color:#79B8FF">3</span><span style="color:#E1E4E8">, delay</span><span style="color:#F97583">=</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Retry a function with exponential backoff"""</span></span>
+<span class="line"><span style="color:#F97583">        for</span><span style="color:#E1E4E8"> attempt </span><span style="color:#F97583">in</span><span style="color:#79B8FF"> range</span><span style="color:#E1E4E8">(max_attempts):</span></span>
+<span class="line"><span style="color:#F97583">            try</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#F97583">                return</span><span style="color:#E1E4E8"> func()</span></span>
+<span class="line"><span style="color:#F97583">            except</span><span style="color:#79B8FF"> Exception</span><span style="color:#F97583"> as</span><span style="color:#E1E4E8"> e:</span></span>
+<span class="line"><span style="color:#F97583">                if</span><span style="color:#E1E4E8"> attempt </span><span style="color:#F97583">==</span><span style="color:#E1E4E8"> max_attempts </span><span style="color:#F97583">-</span><span style="color:#79B8FF"> 1</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#F97583">                    raise</span><span style="color:#E1E4E8"> e</span></span>
+<span class="line"><span style="color:#E1E4E8">                </span></span>
+<span class="line"><span style="color:#E1E4E8">                time.sleep(delay </span><span style="color:#F97583">*</span><span style="color:#E1E4E8"> (</span><span style="color:#79B8FF">2</span><span style="color:#F97583"> **</span><span style="color:#E1E4E8"> attempt))</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#B392F0">    @</span><span style="color:#79B8FF">staticmethod</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> validate_email</span><span style="color:#E1E4E8">(email):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """Validate email address format"""</span></span>
+<span class="line"><span style="color:#F97583">        import</span><span style="color:#E1E4E8"> re</span></span>
+<span class="line"><span style="color:#E1E4E8">        pattern </span><span style="color:#F97583">=</span><span style="color:#F97583"> r</span><span style="color:#9ECBFF">'</span><span style="color:#79B8FF">^[a-zA-Z0-9._%+-]</span><span style="color:#F97583">+</span><span style="color:#DBEDFF">@</span><span style="color:#79B8FF">[a-zA-Z0-9.-]</span><span style="color:#F97583">+</span><span style="color:#85E89D;font-weight:bold">\.</span><span style="color:#79B8FF">[a-zA-Z]</span><span style="color:#F97583">{2,}</span><span style="color:#79B8FF">$</span><span style="color:#9ECBFF">'</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8"> re.match(pattern, email) </span><span style="color:#F97583">is</span><span style="color:#F97583"> not</span><span style="color:#79B8FF"> None</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Example usage</span></span>
+<span class="line"><span style="color:#E1E4E8">unique_id </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> Utilities.generate_id()</span></span>
+<span class="line"><span style="color:#E1E4E8">file_hash </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> Utilities.hash_string(</span><span style="color:#9ECBFF">"file content"</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'md5'</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">encoded </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> Utilities.encode_base64(</span><span style="color:#9ECBFF">"Hello, World!"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">decoded </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> Utilities.decode_base64(encoded)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">size </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> Utilities.format_bytes(</span><span style="color:#79B8FF">1024</span><span style="color:#F97583"> *</span><span style="color:#79B8FF"> 1024</span><span style="color:#E1E4E8">)  </span><span style="color:#6A737D"># "1.0 MB"</span></span>
+<span class="line"><span style="color:#E1E4E8">duration </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> Utilities.format_duration(</span><span style="color:#79B8FF">3661</span><span style="color:#E1E4E8">)   </span><span style="color:#6A737D"># "1.0h"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Retry example</span></span>
+<span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> unreliable_function</span><span style="color:#E1E4E8">():</span></span>
+<span class="line"><span style="color:#F97583">    import</span><span style="color:#E1E4E8"> random</span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> random.random() </span><span style="color:#F97583">&#x3C;</span><span style="color:#79B8FF"> 0.7</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#F97583">        raise</span><span style="color:#79B8FF"> Exception</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">"Random failure"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#9ECBFF"> "Success!"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">result </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> Utilities.retry(unreliable_function, </span><span style="color:#FFAB70">max_attempts</span><span style="color:#F97583">=</span><span style="color:#79B8FF">5</span><span style="color:#E1E4E8">)</span></span></code></pre>
+<h2 id="error-handling">Error Handling</h2>
+<h3 id="exception-classes">Exception Classes</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#F97583">class</span><span style="color:#B392F0"> MacbrewError</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">Exception</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#9ECBFF">    """Base exception for Macbrew API"""</span></span>
+<span class="line"><span style="color:#F97583">    pass</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">class</span><span style="color:#B392F0"> ConfigurationError</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">MacbrewError</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#9ECBFF">    """Configuration related errors"""</span></span>
+<span class="line"><span style="color:#F97583">    pass</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">class</span><span style="color:#B392F0"> PluginError</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">MacbrewError</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#9ECBFF">    """Plugin related errors"""</span></span>
+<span class="line"><span style="color:#F97583">    pass</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">class</span><span style="color:#B392F0"> CommandError</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">MacbrewError</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#9ECBFF">    """Command execution errors"""</span></span>
+<span class="line"><span style="color:#F97583">    pass</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">class</span><span style="color:#B392F0"> ValidationError</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">MacbrewError</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#9ECBFF">    """Validation errors"""</span></span>
+<span class="line"><span style="color:#F97583">    pass</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Example usage</span></span>
+<span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> safe_operation</span><span style="color:#E1E4E8">():</span></span>
+<span class="line"><span style="color:#F97583">    try</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#6A737D">        # Your API calls here</span></span>
+<span class="line"><span style="color:#E1E4E8">        result </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> execute_command(</span><span style="color:#9ECBFF">'ls'</span><span style="color:#E1E4E8">, [</span><span style="color:#9ECBFF">'-la'</span><span style="color:#E1E4E8">])</span></span>
+<span class="line"><span style="color:#F97583">        if</span><span style="color:#E1E4E8"> result[</span><span style="color:#9ECBFF">'returncode'</span><span style="color:#E1E4E8">] </span><span style="color:#F97583">!=</span><span style="color:#79B8FF"> 0</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#F97583">            raise</span><span style="color:#E1E4E8"> CommandError(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"Command failed: </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">result[</span><span style="color:#9ECBFF">'stderr'</span><span style="color:#E1E4E8">]</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">        </span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8"> result[</span><span style="color:#9ECBFF">'stdout'</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    except</span><span style="color:#79B8FF"> FileNotFoundError</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#F97583">        raise</span><span style="color:#E1E4E8"> ConfigurationError(</span><span style="color:#9ECBFF">"Macbrew not found in PATH"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">    except</span><span style="color:#79B8FF"> PermissionError</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#F97583">        raise</span><span style="color:#E1E4E8"> PluginError(</span><span style="color:#9ECBFF">"Insufficient permissions"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">    except</span><span style="color:#79B8FF"> Exception</span><span style="color:#F97583"> as</span><span style="color:#E1E4E8"> e:</span></span>
+<span class="line"><span style="color:#F97583">        raise</span><span style="color:#E1E4E8"> MacbrewError(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"Unexpected error: </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">e</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">)</span></span></code></pre>
+<h2 id="best-practices">Best Practices</h2>
+<h3 id="1-error-handling">1. Error Handling</h3>
+<p>Always handle errors gracefully:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> robust_plugin_function</span><span style="color:#E1E4E8">():</span></span>
+<span class="line"><span style="color:#F97583">    try</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#6A737D">        # Your plugin logic</span></span>
+<span class="line"><span style="color:#E1E4E8">        result </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> process_data()</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8"> result</span></span>
+<span class="line"><span style="color:#F97583">    except</span><span style="color:#79B8FF"> FileNotFoundError</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">        TerminalOutput.print_error(</span><span style="color:#9ECBFF">"Required file not found"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#79B8FF"> None</span></span>
+<span class="line"><span style="color:#F97583">    except</span><span style="color:#79B8FF"> PermissionError</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">        TerminalOutput.print_error(</span><span style="color:#9ECBFF">"Insufficient permissions"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#79B8FF"> None</span></span>
+<span class="line"><span style="color:#F97583">    except</span><span style="color:#79B8FF"> Exception</span><span style="color:#F97583"> as</span><span style="color:#E1E4E8"> e:</span></span>
+<span class="line"><span style="color:#E1E4E8">        TerminalOutput.print_error(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"Unexpected error: </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">e</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#79B8FF"> None</span></span></code></pre>
+<h3 id="2-configuration-management">2. Configuration Management</h3>
+<p>Use the configuration API properly:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> get_plugin_config</span><span style="color:#E1E4E8">(plugin_name):</span></span>
+<span class="line"><span style="color:#E1E4E8">    config </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> MacbrewConfig()</span></span>
+<span class="line"><span style="color:#E1E4E8">    plugin_config </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> config.get_setting(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">'plugins.</span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">plugin_name</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">'</span><span style="color:#E1E4E8">, {})</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#6A737D">    # Set defaults</span></span>
+<span class="line"><span style="color:#E1E4E8">    defaults </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#9ECBFF">        'api_key'</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">''</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        'timeout'</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">30</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        'debug'</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">False</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#E1E4E8"> {</span><span style="color:#F97583">**</span><span style="color:#E1E4E8">defaults, </span><span style="color:#F97583">**</span><span style="color:#E1E4E8">plugin_config}</span></span></code></pre>
+<h3 id="3-logging">3. Logging</h3>
+<p>Use the logging system:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> log_plugin_activity</span><span style="color:#E1E4E8">(plugin_name, message, level</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">'info'</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#E1E4E8">    context </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> PluginContext(plugin_name)</span></span>
+<span class="line"><span style="color:#E1E4E8">    context.log(message, level)</span></span></code></pre>
+<h3 id="4-input-validation">4. Input Validation</h3>
+<p>Validate all inputs:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> validate_input</span><span style="color:#E1E4E8">(data, required_fields):</span></span>
+<span class="line"><span style="color:#E1E4E8">    missing_fields </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> [field </span><span style="color:#F97583">for</span><span style="color:#E1E4E8"> field </span><span style="color:#F97583">in</span><span style="color:#E1E4E8"> required_fields </span><span style="color:#F97583">if</span><span style="color:#E1E4E8"> field </span><span style="color:#F97583">not</span><span style="color:#F97583"> in</span><span style="color:#E1E4E8"> data]</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> missing_fields:</span></span>
+<span class="line"><span style="color:#F97583">        raise</span><span style="color:#E1E4E8"> ValidationError(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"Missing required fields: </span><span style="color:#79B8FF">{</span><span style="color:#9ECBFF">', '</span><span style="color:#E1E4E8">.join(missing_fields)</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#79B8FF"> True</span></span></code></pre>
+<h2 id="next-steps">Next Steps</h2>
+<ul>
+<li><a href="/docs/plugins">Plugin System</a> - Create custom plugins</li>
+<li><a href="/docs/configuration">Configuration</a> - Manage settings</li>
+<li><a href="/docs/commands">Command Reference</a> - Available commands</li>
+<li><a href="/docs/examples">Examples</a> - API usage examples</li>
+</ul> </main> <!-- Prism.js script -->   </body> </html> 

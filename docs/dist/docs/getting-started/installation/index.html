@@ -1,0 +1,186 @@
+<!DOCTYPE html><html lang="en" class="scroll-smooth"> <head><meta charset="UTF-8"><meta name="description" content="Advanced terminal emulator built in Rust with Python integration - A comprehensive command-line experience"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v3.6.5"><title></title><link rel="canonical" href="https://macbrew.dev/docs/getting-started/installation/"><!-- Open Graph --><meta property="og:type" content="website"><meta property="og:url" content="https://macbrew.dev/docs/getting-started/installation/"><meta property="og:title"><meta property="og:description" content="Advanced terminal emulator built in Rust with Python integration - A comprehensive command-line experience"><meta property="og:image" content="https://macbrew.dev/og-image.png"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://macbrew.dev/docs/getting-started/installation/"><meta property="twitter:title"><meta property="twitter:description" content="Advanced terminal emulator built in Rust with Python integration - A comprehensive command-line experience"><meta property="twitter:image" content="https://macbrew.dev/og-image.png"><!-- Fonts --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"><!-- Prism.js for syntax highlighting --><link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet"><link rel="stylesheet" href="/global.css"><link rel="stylesheet" href="/_astro/api.c1af7efe.css" /><script type="module" src="/_astro/hoisted.85e05fd5.js"></script></head> <body class="bg-gradient-to-br from-blue-50 via-sky-100 to-purple-100 dark:from-dark-900 dark:via-blue-950 dark:to-black text-dark-900 dark:text-white antialiased min-h-screen"> <main class="prose prose-lg prose-invert mx-auto px-4 py-8 max-w-4xl"> <h1 id="installation-guide">Installation Guide</h1>
+<p>Get Macbrew up and running on your system in just a few minutes.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Before installing Macbrew, make sure you have the following installed:</p>
+<ul>
+<li><strong>Rust</strong> (1.70 or higher) - <a href="https://rustup.rs/">Install Rust</a></li>
+<li><strong>Python 3.8+</strong> - <a href="https://www.python.org/downloads/">Install Python</a></li>
+<li><strong>Node.js 14+</strong> - <a href="https://nodejs.org/">Install Node.js</a></li>
+</ul>
+<h2 id="quick-installation">Quick Installation</h2>
+<h3 id="using-npx-recommended">Using npx (Recommended)</h3>
+<p>The fastest way to try Macbrew is using npx:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#B392F0">npx</span><span style="color:#9ECBFF"> macbrew</span></span></code></pre>
+<p>This will automatically download and run the latest version of Macbrew without installing anything permanently.</p>
+<h3 id="global-installation">Global Installation</h3>
+<p>For regular use, install Macbrew globally:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#B392F0">npm</span><span style="color:#9ECBFF"> install</span><span style="color:#79B8FF"> -g</span><span style="color:#9ECBFF"> macbrew</span></span></code></pre>
+<p>Then run it:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#B392F0">macbrew</span></span></code></pre>
+<h2 id="platform-specific-instructions">Platform-Specific Instructions</h2>
+<h3 id="windows">Windows</h3>
+<ol>
+<li>
+<p><strong>Install Rust</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Download and run rustup-init.exe from https://rustup.rs/</span></span>
+<span class="line"><span style="color:#6A737D"># Or use winget</span></span>
+<span class="line"><span style="color:#B392F0">winget</span><span style="color:#9ECBFF"> install</span><span style="color:#9ECBFF"> Rust.Rust</span></span></code></pre>
+</li>
+<li>
+<p><strong>Install Python</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Download from https://www.python.org/downloads/</span></span>
+<span class="line"><span style="color:#6A737D"># Or use winget</span></span>
+<span class="line"><span style="color:#B392F0">winget</span><span style="color:#9ECBFF"> install</span><span style="color:#9ECBFF"> Python.Python.3.11</span></span></code></pre>
+</li>
+<li>
+<p><strong>Install Node.js</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Download from https://nodejs.org/</span></span>
+<span class="line"><span style="color:#6A737D"># Or use winget</span></span>
+<span class="line"><span style="color:#B392F0">winget</span><span style="color:#9ECBFF"> install</span><span style="color:#9ECBFF"> OpenJS.NodeJS</span></span></code></pre>
+</li>
+<li>
+<p><strong>Install Macbrew</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#B392F0">npm</span><span style="color:#9ECBFF"> install</span><span style="color:#79B8FF"> -g</span><span style="color:#9ECBFF"> macbrew</span></span></code></pre>
+</li>
+</ol>
+<h3 id="macos">macOS</h3>
+<ol>
+<li>
+<p><strong>Install Rust</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#B392F0">curl</span><span style="color:#79B8FF"> --proto</span><span style="color:#9ECBFF"> "=https"</span><span style="color:#79B8FF"> --tlsv1.2</span><span style="color:#79B8FF"> -sSf</span><span style="color:#9ECBFF"> https://sh.rustup.rs</span><span style="color:#F97583"> |</span><span style="color:#B392F0"> sh</span></span>
+<span class="line"><span style="color:#79B8FF">source</span><span style="color:#9ECBFF"> ~/.cargo/env</span></span></code></pre>
+</li>
+<li>
+<p><strong>Install Python</strong> (if not already installed):</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Using Homebrew</span></span>
+<span class="line"><span style="color:#B392F0">brew</span><span style="color:#9ECBFF"> install</span><span style="color:#9ECBFF"> python@3.11</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Or download from https://www.python.org/downloads/</span></span></code></pre>
+</li>
+<li>
+<p><strong>Install Node.js</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Using Homebrew</span></span>
+<span class="line"><span style="color:#B392F0">brew</span><span style="color:#9ECBFF"> install</span><span style="color:#9ECBFF"> node</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Or download from https://nodejs.org/</span></span></code></pre>
+</li>
+<li>
+<p><strong>Install Macbrew</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#B392F0">npm</span><span style="color:#9ECBFF"> install</span><span style="color:#79B8FF"> -g</span><span style="color:#9ECBFF"> macbrew</span></span></code></pre>
+</li>
+</ol>
+<h3 id="linux">Linux</h3>
+<ol>
+<li>
+<p><strong>Install Rust</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#B392F0">curl</span><span style="color:#79B8FF"> --proto</span><span style="color:#9ECBFF"> "=https"</span><span style="color:#79B8FF"> --tlsv1.2</span><span style="color:#79B8FF"> -sSf</span><span style="color:#9ECBFF"> https://sh.rustup.rs</span><span style="color:#F97583"> |</span><span style="color:#B392F0"> sh</span></span>
+<span class="line"><span style="color:#79B8FF">source</span><span style="color:#9ECBFF"> ~/.cargo/env</span></span></code></pre>
+</li>
+<li>
+<p><strong>Install Python</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Ubuntu/Debian</span></span>
+<span class="line"><span style="color:#B392F0">sudo</span><span style="color:#9ECBFF"> apt</span><span style="color:#9ECBFF"> update</span></span>
+<span class="line"><span style="color:#B392F0">sudo</span><span style="color:#9ECBFF"> apt</span><span style="color:#9ECBFF"> install</span><span style="color:#9ECBFF"> python3</span><span style="color:#9ECBFF"> python3-pip</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># CentOS/RHEL/Fedora</span></span>
+<span class="line"><span style="color:#B392F0">sudo</span><span style="color:#9ECBFF"> dnf</span><span style="color:#9ECBFF"> install</span><span style="color:#9ECBFF"> python3</span><span style="color:#9ECBFF"> python3-pip</span></span>
+<span class="line"><span style="color:#6A737D"># or</span></span>
+<span class="line"><span style="color:#B392F0">sudo</span><span style="color:#9ECBFF"> yum</span><span style="color:#9ECBFF"> install</span><span style="color:#9ECBFF"> python3</span><span style="color:#9ECBFF"> python3-pip</span></span></code></pre>
+</li>
+<li>
+<p><strong>Install Node.js</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Using NodeSource repository (Ubuntu/Debian)</span></span>
+<span class="line"><span style="color:#B392F0">curl</span><span style="color:#79B8FF"> -fsSL</span><span style="color:#9ECBFF"> https://deb.nodesource.com/setup_18.x</span><span style="color:#F97583"> |</span><span style="color:#B392F0"> sudo</span><span style="color:#79B8FF"> -E</span><span style="color:#9ECBFF"> bash</span><span style="color:#9ECBFF"> -</span></span>
+<span class="line"><span style="color:#B392F0">sudo</span><span style="color:#9ECBFF"> apt-get</span><span style="color:#9ECBFF"> install</span><span style="color:#79B8FF"> -y</span><span style="color:#9ECBFF"> nodejs</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># CentOS/RHEL/Fedora</span></span>
+<span class="line"><span style="color:#B392F0">curl</span><span style="color:#79B8FF"> -fsSL</span><span style="color:#9ECBFF"> https://rpm.nodesource.com/setup_18.x</span><span style="color:#F97583"> |</span><span style="color:#B392F0"> sudo</span><span style="color:#9ECBFF"> bash</span><span style="color:#9ECBFF"> -</span></span>
+<span class="line"><span style="color:#B392F0">sudo</span><span style="color:#9ECBFF"> yum</span><span style="color:#9ECBFF"> install</span><span style="color:#79B8FF"> -y</span><span style="color:#9ECBFF"> nodejs</span></span></code></pre>
+</li>
+<li>
+<p><strong>Install Macbrew</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#B392F0">npm</span><span style="color:#9ECBFF"> install</span><span style="color:#79B8FF"> -g</span><span style="color:#9ECBFF"> macbrew</span></span></code></pre>
+</li>
+</ol>
+<h2 id="from-source">From Source</h2>
+<p>If you want to build from source or contribute to the project:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Clone the repository</span></span>
+<span class="line"><span style="color:#B392F0">git</span><span style="color:#9ECBFF"> clone</span><span style="color:#9ECBFF"> https://github.com/Zemerik/Macbrew.git</span></span>
+<span class="line"><span style="color:#79B8FF">cd</span><span style="color:#9ECBFF"> Macbrew</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Install dependencies</span></span>
+<span class="line"><span style="color:#B392F0">npm</span><span style="color:#9ECBFF"> install</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Build the project</span></span>
+<span class="line"><span style="color:#B392F0">npm</span><span style="color:#9ECBFF"> run</span><span style="color:#9ECBFF"> build</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Run in development mode</span></span>
+<span class="line"><span style="color:#B392F0">npm</span><span style="color:#9ECBFF"> run</span><span style="color:#9ECBFF"> dev</span></span></code></pre>
+<h2 id="verification">Verification</h2>
+<p>After installation, verify that Macbrew is working correctly:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Check if Macbrew is installed</span></span>
+<span class="line"><span style="color:#B392F0">macbrew</span><span style="color:#79B8FF"> --version</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Start Macbrew</span></span>
+<span class="line"><span style="color:#B392F0">macbrew</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># You should see the welcome message and prompt</span></span></code></pre>
+<h2 id="first-run">First Run</h2>
+<p>When you run Macbrew for the first time, it will:</p>
+<ol>
+<li><strong>Build the Rust binary</strong> (if not already built)</li>
+<li><strong>Set up configuration</strong> in <code>~/.config/terminal-emulator/</code></li>
+<li><strong>Install example plugins</strong> in <code>~/.config/terminal-emulator/plugins/</code></li>
+<li><strong>Show the welcome message</strong></li>
+</ol>
+<h2 id="configuration">Configuration</h2>
+<p>Macbrew creates a configuration file at:</p>
+<ul>
+<li><strong>Linux/macOS</strong>: <code>~/.config/terminal-emulator/config.json</code></li>
+<li><strong>Windows</strong>: <code>%APPDATA%\terminal-emulator\config.json</code></li>
+</ul>
+<p>You can customize various settings like:</p>
+<ul>
+<li>Prompt style and colors</li>
+<li>Command history size</li>
+<li>Auto-completion settings</li>
+<li>Plugin configurations</li>
+</ul>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="common-issues">Common Issues</h3>
+<p><strong>”Rust is not installed"</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Install Rust</span></span>
+<span class="line"><span style="color:#B392F0">curl</span><span style="color:#79B8FF"> --proto</span><span style="color:#9ECBFF"> "=https"</span><span style="color:#79B8FF"> --tlsv1.2</span><span style="color:#79B8FF"> -sSf</span><span style="color:#9ECBFF"> https://sh.rustup.rs</span><span style="color:#F97583"> |</span><span style="color:#B392F0"> sh</span></span>
+<span class="line"><span style="color:#79B8FF">source</span><span style="color:#9ECBFF"> ~/.cargo/env</span></span></code></pre>
+<p><strong>"Python is not found"</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Make sure Python 3.8+ is installed and in PATH</span></span>
+<span class="line"><span style="color:#B392F0">python3</span><span style="color:#79B8FF"> --version</span></span>
+<span class="line"><span style="color:#6A737D"># or</span></span>
+<span class="line"><span style="color:#B392F0">python</span><span style="color:#79B8FF"> --version</span></span></code></pre>
+<p><strong>"Permission denied"</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># On Linux/macOS, you might need to use sudo</span></span>
+<span class="line"><span style="color:#B392F0">sudo</span><span style="color:#9ECBFF"> npm</span><span style="color:#9ECBFF"> install</span><span style="color:#79B8FF"> -g</span><span style="color:#9ECBFF"> macbrew</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Or configure npm to use a different directory</span></span>
+<span class="line"><span style="color:#B392F0">npm</span><span style="color:#9ECBFF"> config</span><span style="color:#9ECBFF"> set</span><span style="color:#9ECBFF"> prefix</span><span style="color:#9ECBFF"> ~/.npm-global</span></span>
+<span class="line"><span style="color:#F97583">export</span><span style="color:#E1E4E8"> PATH</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">~/.npm-global/bin:</span><span style="color:#E1E4E8">$PATH</span></span></code></pre>
+<p><strong>"Build failed”</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Clean and rebuild</span></span>
+<span class="line"><span style="color:#B392F0">npm</span><span style="color:#9ECBFF"> run</span><span style="color:#9ECBFF"> clean</span></span>
+<span class="line"><span style="color:#B392F0">npm</span><span style="color:#9ECBFF"> run</span><span style="color:#9ECBFF"> build</span></span></code></pre>
+<h3 id="getting-help">Getting Help</h3>
+<p>If you encounter any issues:</p>
+<ol>
+<li>Check the <a href="/docs/troubleshooting">troubleshooting guide</a></li>
+<li>Search <a href="https://github.com/Zemerik/Macbrew/issues">existing issues</a></li>
+<li>Create a <a href="https://github.com/Zemerik/Macbrew/issues/new">new issue</a></li>
+<li>Join our <a href="https://github.com/Zemerik/Macbrew/discussions">Discussions</a></li>
+</ol>
+<h2 id="next-steps">Next Steps</h2>
+<p>Now that you have Macbrew installed, check out:</p>
+<ul>
+<li><a href="/docs/getting-started">Getting Started Guide</a> - Learn the basics</li>
+<li><a href="/docs/features">Features Overview</a> - Explore what Macbrew can do</li>
+<li><a href="/docs/commands">Command Reference</a> - Browse available commands</li>
+<li><a href="/docs/plugins">Plugin System</a> - Extend functionality with plugins</li>
+</ul> </main> <!-- Prism.js script -->   </body> </html> 

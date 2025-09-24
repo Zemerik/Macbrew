@@ -1,0 +1,450 @@
+<!DOCTYPE html><html lang="en" class="scroll-smooth"> <head><meta charset="UTF-8"><meta name="description" content="Advanced terminal emulator built in Rust with Python integration - A comprehensive command-line experience"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v3.6.5"><title></title><link rel="canonical" href="https://macbrew.dev/docs/plugins/"><!-- Open Graph --><meta property="og:type" content="website"><meta property="og:url" content="https://macbrew.dev/docs/plugins/"><meta property="og:title"><meta property="og:description" content="Advanced terminal emulator built in Rust with Python integration - A comprehensive command-line experience"><meta property="og:image" content="https://macbrew.dev/og-image.png"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://macbrew.dev/docs/plugins/"><meta property="twitter:title"><meta property="twitter:description" content="Advanced terminal emulator built in Rust with Python integration - A comprehensive command-line experience"><meta property="twitter:image" content="https://macbrew.dev/og-image.png"><!-- Fonts --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"><!-- Prism.js for syntax highlighting --><link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet"><link rel="stylesheet" href="/global.css"><link rel="stylesheet" href="/_astro/api.c1af7efe.css" /><script type="module" src="/_astro/hoisted.85e05fd5.js"></script></head> <body class="bg-gradient-to-br from-blue-50 via-sky-100 to-purple-100 dark:from-dark-900 dark:via-blue-950 dark:to-black text-dark-900 dark:text-white antialiased min-h-screen"> <main class="prose prose-lg prose-invert mx-auto px-4 py-8 max-w-4xl"> <h1 id="plugin-system">Plugin System</h1>
+<p>Macbrew’s plugin system allows you to extend functionality with custom commands and features.</p>
+<h2 id="overview">Overview</h2>
+<p>Plugins are modular extensions that add new commands and functionality to Macbrew. They can be written in Python, JavaScript, or any language that can be executed from the command line.</p>
+<h2 id="plugin-structure">Plugin Structure</h2>
+<p>A plugin consists of:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span>plugin-name/</span></span>
+<span class="line"><span>├── plugin.toml          # Plugin manifest</span></span>
+<span class="line"><span>├── commands/            # Command scripts</span></span>
+<span class="line"><span>│   ├── hello.py</span></span>
+<span class="line"><span>│   └── weather.py</span></span>
+<span class="line"><span>├── lib/                 # Library files</span></span>
+<span class="line"><span>│   └── utils.py</span></span>
+<span class="line"><span>└── README.md           # Plugin documentation</span></span></code></pre>
+<h2 id="plugin-manifest">Plugin Manifest</h2>
+<p>The <code>plugin.toml</code> file defines the plugin metadata and commands:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#E1E4E8">name = </span><span style="color:#9ECBFF">"my-plugin"</span></span>
+<span class="line"><span style="color:#E1E4E8">version = </span><span style="color:#9ECBFF">"1.0.0"</span></span>
+<span class="line"><span style="color:#E1E4E8">description = </span><span style="color:#9ECBFF">"My custom plugin for Macbrew"</span></span>
+<span class="line"><span style="color:#E1E4E8">author = </span><span style="color:#9ECBFF">"Your Name"</span></span>
+<span class="line"><span style="color:#E1E4E8">repository = </span><span style="color:#9ECBFF">"https://github.com/username/my-plugin"</span></span>
+<span class="line"><span style="color:#E1E4E8">license = </span><span style="color:#9ECBFF">"MIT"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">[</span><span style="color:#B392F0">commands</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#E1E4E8">hello = { description = </span><span style="color:#9ECBFF">"Say hello"</span><span style="color:#E1E4E8">, usage = </span><span style="color:#9ECBFF">"hello [name]"</span><span style="color:#E1E4E8">, script = </span><span style="color:#9ECBFF">"commands/hello.py"</span><span style="color:#E1E4E8">, language = </span><span style="color:#9ECBFF">"python"</span><span style="color:#E1E4E8">, enabled = </span><span style="color:#79B8FF">true</span><span style="color:#E1E4E8"> }</span></span>
+<span class="line"><span style="color:#E1E4E8">weather = { description = </span><span style="color:#9ECBFF">"Get weather info"</span><span style="color:#E1E4E8">, usage = </span><span style="color:#9ECBFF">"weather [city]"</span><span style="color:#E1E4E8">, script = </span><span style="color:#9ECBFF">"commands/weather.py"</span><span style="color:#E1E4E8">, language = </span><span style="color:#9ECBFF">"python"</span><span style="color:#E1E4E8">, enabled = </span><span style="color:#79B8FF">true</span><span style="color:#E1E4E8"> }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">[</span><span style="color:#B392F0">config</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#E1E4E8">api_key = { type = </span><span style="color:#9ECBFF">"string"</span><span style="color:#E1E4E8">, default = </span><span style="color:#9ECBFF">""</span><span style="color:#E1E4E8">, description = </span><span style="color:#9ECBFF">"API key for weather service"</span><span style="color:#E1E4E8"> }</span></span></code></pre>
+<h2 id="creating-a-plugin">Creating a Plugin</h2>
+<h3 id="step-1-create-plugin-directory">Step 1: Create Plugin Directory</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#B392F0">mkdir</span><span style="color:#9ECBFF"> ~/.config/terminal-emulator/plugins/my-plugin</span></span>
+<span class="line"><span style="color:#79B8FF">cd</span><span style="color:#9ECBFF"> ~/.config/terminal-emulator/plugins/my-plugin</span></span></code></pre>
+<h3 id="step-2-create-plugin-manifest">Step 2: Create Plugin Manifest</h3>
+<p>Create <code>plugin.toml</code>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#E1E4E8">name = </span><span style="color:#9ECBFF">"my-plugin"</span></span>
+<span class="line"><span style="color:#E1E4E8">version = </span><span style="color:#9ECBFF">"1.0.0"</span></span>
+<span class="line"><span style="color:#E1E4E8">description = </span><span style="color:#9ECBFF">"Example plugin for Macbrew"</span></span>
+<span class="line"><span style="color:#E1E4E8">author = </span><span style="color:#9ECBFF">"Your Name"</span></span>
+<span class="line"><span style="color:#E1E4E8">license = </span><span style="color:#9ECBFF">"MIT"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">[</span><span style="color:#B392F0">commands</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#E1E4E8">hello = { description = </span><span style="color:#9ECBFF">"Say hello to someone"</span><span style="color:#E1E4E8">, usage = </span><span style="color:#9ECBFF">"hello [name]"</span><span style="color:#E1E4E8">, script = </span><span style="color:#9ECBFF">"hello.py"</span><span style="color:#E1E4E8">, language = </span><span style="color:#9ECBFF">"python"</span><span style="color:#E1E4E8">, enabled = </span><span style="color:#79B8FF">true</span><span style="color:#E1E4E8"> }</span></span>
+<span class="line"><span style="color:#E1E4E8">calculator = { description = </span><span style="color:#9ECBFF">"Simple calculator"</span><span style="color:#E1E4E8">, usage = </span><span style="color:#9ECBFF">"calculator [expression]"</span><span style="color:#E1E4E8">, script = </span><span style="color:#9ECBFF">"calculator.py"</span><span style="color:#E1E4E8">, language = </span><span style="color:#9ECBFF">"python"</span><span style="color:#E1E4E8">, enabled = </span><span style="color:#79B8FF">true</span><span style="color:#E1E4E8"> }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">[</span><span style="color:#B392F0">config</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#E1E4E8">greeting = { type = </span><span style="color:#9ECBFF">"string"</span><span style="color:#E1E4E8">, default = </span><span style="color:#9ECBFF">"Hello"</span><span style="color:#E1E4E8">, description = </span><span style="color:#9ECBFF">"Default greeting message"</span><span style="color:#E1E4E8"> }</span></span></code></pre>
+<h3 id="step-3-create-command-scripts">Step 3: Create Command Scripts</h3>
+<p>Create <code>hello.py</code>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D">#!/usr/bin/env python3</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> sys</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> os</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> main</span><span style="color:#E1E4E8">():</span></span>
+<span class="line"><span style="color:#6A737D">    # Get plugin config</span></span>
+<span class="line"><span style="color:#E1E4E8">    config_path </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> os.path.join(os.path.dirname(</span><span style="color:#79B8FF">__file__</span><span style="color:#E1E4E8">), </span><span style="color:#9ECBFF">'..'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'config.json'</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    greeting </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> "Hello"</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> os.path.exists(config_path):</span></span>
+<span class="line"><span style="color:#F97583">        import</span><span style="color:#E1E4E8"> json</span></span>
+<span class="line"><span style="color:#F97583">        with</span><span style="color:#79B8FF"> open</span><span style="color:#E1E4E8">(config_path, </span><span style="color:#9ECBFF">'r'</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">as</span><span style="color:#E1E4E8"> f:</span></span>
+<span class="line"><span style="color:#E1E4E8">            config </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> json.load(f)</span></span>
+<span class="line"><span style="color:#E1E4E8">            greeting </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> config.get(</span><span style="color:#9ECBFF">'greeting'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'Hello'</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#6A737D">    # Get name from arguments</span></span>
+<span class="line"><span style="color:#E1E4E8">    name </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> sys.argv[</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">] </span><span style="color:#F97583">if</span><span style="color:#79B8FF"> len</span><span style="color:#E1E4E8">(sys.argv) </span><span style="color:#F97583">></span><span style="color:#79B8FF"> 1</span><span style="color:#F97583"> else</span><span style="color:#9ECBFF"> "World"</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#79B8FF">    print</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"</span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">greeting</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">, </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">name</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">!"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">if</span><span style="color:#79B8FF"> __name__</span><span style="color:#F97583"> ==</span><span style="color:#9ECBFF"> "__main__"</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    main()</span></span></code></pre>
+<p>Create <code>calculator.py</code>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D">#!/usr/bin/env python3</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> sys</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> main</span><span style="color:#E1E4E8">():</span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#79B8FF"> len</span><span style="color:#E1E4E8">(sys.argv) </span><span style="color:#F97583">&#x3C;</span><span style="color:#79B8FF"> 2</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#79B8FF">        print</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">"Usage: calculator [expression]"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#79B8FF">        print</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">"Example: calculator '2 + 3 * 4'"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">        return</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#E1E4E8">    expression </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> ' '</span><span style="color:#E1E4E8">.join(sys.argv[</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">:])</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    try</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#6A737D">        # Safe evaluation (only basic math operations)</span></span>
+<span class="line"><span style="color:#E1E4E8">        allowed_chars </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> set</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'0123456789+-*/.() '</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">        if</span><span style="color:#F97583"> not</span><span style="color:#79B8FF"> all</span><span style="color:#E1E4E8">(c </span><span style="color:#F97583">in</span><span style="color:#E1E4E8"> allowed_chars </span><span style="color:#F97583">for</span><span style="color:#E1E4E8"> c </span><span style="color:#F97583">in</span><span style="color:#E1E4E8"> expression):</span></span>
+<span class="line"><span style="color:#79B8FF">            print</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">"Error: Invalid characters in expression"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">            return</span></span>
+<span class="line"><span style="color:#E1E4E8">        </span></span>
+<span class="line"><span style="color:#E1E4E8">        result </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> eval</span><span style="color:#E1E4E8">(expression)</span></span>
+<span class="line"><span style="color:#79B8FF">        print</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"</span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">expression</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF"> = </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">result</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">    except</span><span style="color:#79B8FF"> Exception</span><span style="color:#F97583"> as</span><span style="color:#E1E4E8"> e:</span></span>
+<span class="line"><span style="color:#79B8FF">        print</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"Error: </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">e</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">if</span><span style="color:#79B8FF"> __name__</span><span style="color:#F97583"> ==</span><span style="color:#9ECBFF"> "__main__"</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    main()</span></span></code></pre>
+<h3 id="step-4-test-your-plugin">Step 4: Test Your Plugin</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Reload plugins</span></span>
+<span class="line"><span style="color:#B392F0">plugins</span><span style="color:#9ECBFF"> reload</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Test your commands</span></span>
+<span class="line"><span style="color:#B392F0">hello</span><span style="color:#9ECBFF"> Alice</span></span>
+<span class="line"><span style="color:#B392F0">calculator</span><span style="color:#9ECBFF"> "2 + 3 * 4"</span></span></code></pre>
+<h2 id="plugin-management-commands">Plugin Management Commands</h2>
+<h3 id="list-plugins">List Plugins</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#B392F0">plugins</span><span style="color:#9ECBFF"> list</span></span></code></pre>
+<p>Output:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span>Installed Plugins:</span></span>
+<span class="line"><span>├── my-plugin (1.0.0) - Example plugin for Macbrew</span></span>
+<span class="line"><span>├── weather-plugin (2.1.0) - Weather information</span></span>
+<span class="line"><span>└── git-helper (1.5.0) - Git workflow helpers</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Available Commands:</span></span>
+<span class="line"><span>├── hello (my-plugin)</span></span>
+<span class="line"><span>├── calculator (my-plugin)</span></span>
+<span class="line"><span>├── weather (weather-plugin)</span></span>
+<span class="line"><span>└── git-status (git-helper)</span></span></code></pre>
+<h3 id="install-plugin">Install Plugin</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Install from local directory</span></span>
+<span class="line"><span style="color:#B392F0">install-plugin</span><span style="color:#9ECBFF"> /path/to/plugin</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Install from Git repository</span></span>
+<span class="line"><span style="color:#B392F0">install-plugin</span><span style="color:#9ECBFF"> https://github.com/username/plugin-name</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Install from npm package</span></span>
+<span class="line"><span style="color:#B392F0">install-plugin</span><span style="color:#9ECBFF"> @username/plugin-name</span></span></code></pre>
+<h3 id="enabledisable-plugin">Enable/Disable Plugin</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Enable plugin</span></span>
+<span class="line"><span style="color:#B392F0">enable-plugin</span><span style="color:#9ECBFF"> my-plugin</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Disable plugin</span></span>
+<span class="line"><span style="color:#B392F0">disable-plugin</span><span style="color:#9ECBFF"> my-plugin</span></span></code></pre>
+<h3 id="uninstall-plugin">Uninstall Plugin</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#B392F0">uninstall-plugin</span><span style="color:#9ECBFF"> my-plugin</span></span></code></pre>
+<h3 id="reload-plugins">Reload Plugins</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#B392F0">plugins</span><span style="color:#9ECBFF"> reload</span></span></code></pre>
+<h2 id="plugin-configuration">Plugin Configuration</h2>
+<h3 id="setting-configuration">Setting Configuration</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Set plugin configuration</span></span>
+<span class="line"><span style="color:#B392F0">config</span><span style="color:#9ECBFF"> set</span><span style="color:#9ECBFF"> my-plugin.greeting</span><span style="color:#9ECBFF"> "Hi there"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Get plugin configuration</span></span>
+<span class="line"><span style="color:#B392F0">config</span><span style="color:#9ECBFF"> get</span><span style="color:#9ECBFF"> my-plugin.greeting</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># List all plugin configurations</span></span>
+<span class="line"><span style="color:#B392F0">config</span><span style="color:#9ECBFF"> list</span><span style="color:#9ECBFF"> my-plugin</span></span></code></pre>
+<h3 id="configuration-file">Configuration File</h3>
+<p>Plugin configurations are stored in <code>~/.config/terminal-emulator/plugins/[plugin-name]/config.json</code>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#79B8FF">  "greeting"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"Hi there"</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">  "api_key"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"your-api-key-here"</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">  "debug"</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">false</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<h2 id="advanced-plugin-features">Advanced Plugin Features</h2>
+<h3 id="plugin-dependencies">Plugin Dependencies</h3>
+<p>Specify dependencies in your <code>plugin.toml</code>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#E1E4E8">[</span><span style="color:#B392F0">dependencies</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#E1E4E8">requests = </span><span style="color:#9ECBFF">"2.28.0"</span></span>
+<span class="line"><span style="color:#E1E4E8">click = </span><span style="color:#9ECBFF">"8.1.0"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">[</span><span style="color:#B392F0">dependencies</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">system</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#E1E4E8">curl = </span><span style="color:#9ECBFF">"7.0.0"</span></span>
+<span class="line"><span style="color:#E1E4E8">jq = </span><span style="color:#9ECBFF">"1.6"</span></span></code></pre>
+<h3 id="plugin-hooks">Plugin Hooks</h3>
+<p>Plugins can define hooks that run at specific events:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#E1E4E8">[</span><span style="color:#B392F0">hooks</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#E1E4E8">pre_command = </span><span style="color:#9ECBFF">"hooks/pre_command.py"</span></span>
+<span class="line"><span style="color:#E1E4E8">post_command = </span><span style="color:#9ECBFF">"hooks/post_command.py"</span></span>
+<span class="line"><span style="color:#E1E4E8">startup = </span><span style="color:#9ECBFF">"hooks/startup.py"</span></span>
+<span class="line"><span style="color:#E1E4E8">shutdown = </span><span style="color:#9ECBFF">"hooks/shutdown.py"</span></span></code></pre>
+<p>Example hook script (<code>hooks/startup.py</code>):</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D">#!/usr/bin/env python3</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> os</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> main</span><span style="color:#E1E4E8">():</span></span>
+<span class="line"><span style="color:#79B8FF">    print</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">"My plugin is starting up!"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#6A737D">    # Initialize plugin resources</span></span>
+<span class="line"><span style="color:#6A737D">    # Set up API connections</span></span>
+<span class="line"><span style="color:#6A737D">    # Load cached data</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">if</span><span style="color:#79B8FF"> __name__</span><span style="color:#F97583"> ==</span><span style="color:#9ECBFF"> "__main__"</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    main()</span></span></code></pre>
+<h3 id="plugin-api">Plugin API</h3>
+<p>Plugins can access Macbrew’s internal API:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D">#!/usr/bin/env python3</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> os</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> json</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> get_macbrew_config</span><span style="color:#E1E4E8">():</span></span>
+<span class="line"><span style="color:#9ECBFF">    """Get Macbrew configuration"""</span></span>
+<span class="line"><span style="color:#E1E4E8">    config_path </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> os.path.expanduser(</span><span style="color:#9ECBFF">"~/.config/terminal-emulator/config.json"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> os.path.exists(config_path):</span></span>
+<span class="line"><span style="color:#F97583">        with</span><span style="color:#79B8FF"> open</span><span style="color:#E1E4E8">(config_path, </span><span style="color:#9ECBFF">'r'</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">as</span><span style="color:#E1E4E8"> f:</span></span>
+<span class="line"><span style="color:#F97583">            return</span><span style="color:#E1E4E8"> json.load(f)</span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#E1E4E8"> {}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> get_plugin_config</span><span style="color:#E1E4E8">(plugin_name):</span></span>
+<span class="line"><span style="color:#9ECBFF">    """Get plugin-specific configuration"""</span></span>
+<span class="line"><span style="color:#E1E4E8">    config_path </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> os.path.expanduser(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"~/.config/terminal-emulator/plugins/</span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">plugin_name</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">/config.json"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> os.path.exists(config_path):</span></span>
+<span class="line"><span style="color:#F97583">        with</span><span style="color:#79B8FF"> open</span><span style="color:#E1E4E8">(config_path, </span><span style="color:#9ECBFF">'r'</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">as</span><span style="color:#E1E4E8"> f:</span></span>
+<span class="line"><span style="color:#F97583">            return</span><span style="color:#E1E4E8"> json.load(f)</span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#E1E4E8"> {}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> main</span><span style="color:#E1E4E8">():</span></span>
+<span class="line"><span style="color:#6A737D">    # Access Macbrew configuration</span></span>
+<span class="line"><span style="color:#E1E4E8">    macbrew_config </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> get_macbrew_config()</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#6A737D">    # Access plugin configuration</span></span>
+<span class="line"><span style="color:#E1E4E8">    plugin_config </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> get_plugin_config(</span><span style="color:#9ECBFF">"my-plugin"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#79B8FF">    print</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"Macbrew theme: </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">macbrew_config.get(</span><span style="color:#9ECBFF">'theme'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'default'</span><span style="color:#E1E4E8">)</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#79B8FF">    print</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"Plugin greeting: </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">plugin_config.get(</span><span style="color:#9ECBFF">'greeting'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'Hello'</span><span style="color:#E1E4E8">)</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">if</span><span style="color:#79B8FF"> __name__</span><span style="color:#F97583"> ==</span><span style="color:#9ECBFF"> "__main__"</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    main()</span></span></code></pre>
+<h2 id="example-plugins">Example Plugins</h2>
+<h3 id="weather-plugin">Weather Plugin</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># plugin.toml</span></span>
+<span class="line"><span style="color:#E1E4E8">name = </span><span style="color:#9ECBFF">"weather"</span></span>
+<span class="line"><span style="color:#E1E4E8">version = </span><span style="color:#9ECBFF">"1.0.0"</span></span>
+<span class="line"><span style="color:#E1E4E8">description = </span><span style="color:#9ECBFF">"Get weather information"</span></span>
+<span class="line"><span style="color:#E1E4E8">author = </span><span style="color:#9ECBFF">"Weather Enthusiast"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">[</span><span style="color:#B392F0">commands</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#E1E4E8">weather = { description = </span><span style="color:#9ECBFF">"Get current weather"</span><span style="color:#E1E4E8">, usage = </span><span style="color:#9ECBFF">"weather [city]"</span><span style="color:#E1E4E8">, script = </span><span style="color:#9ECBFF">"weather.py"</span><span style="color:#E1E4E8">, language = </span><span style="color:#9ECBFF">"python"</span><span style="color:#E1E4E8">, enabled = </span><span style="color:#79B8FF">true</span><span style="color:#E1E4E8"> }</span></span>
+<span class="line"><span style="color:#E1E4E8">forecast = { description = </span><span style="color:#9ECBFF">"Get weather forecast"</span><span style="color:#E1E4E8">, usage = </span><span style="color:#9ECBFF">"forecast [city] [days]"</span><span style="color:#E1E4E8">, script = </span><span style="color:#9ECBFF">"forecast.py"</span><span style="color:#E1E4E8">, language = </span><span style="color:#9ECBFF">"python"</span><span style="color:#E1E4E8">, enabled = </span><span style="color:#79B8FF">true</span><span style="color:#E1E4E8"> }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">[</span><span style="color:#B392F0">config</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#E1E4E8">api_key = { type = </span><span style="color:#9ECBFF">"string"</span><span style="color:#E1E4E8">, default = </span><span style="color:#9ECBFF">""</span><span style="color:#E1E4E8">, description = </span><span style="color:#9ECBFF">"OpenWeatherMap API key"</span><span style="color:#E1E4E8"> }</span></span>
+<span class="line"><span style="color:#E1E4E8">units = { type = </span><span style="color:#9ECBFF">"string"</span><span style="color:#E1E4E8">, default = </span><span style="color:#9ECBFF">"metric"</span><span style="color:#E1E4E8">, description = </span><span style="color:#9ECBFF">"Temperature units (metric/imperial)"</span><span style="color:#E1E4E8"> }</span></span></code></pre>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># weather.py</span></span>
+<span class="line"><span style="color:#6A737D">#!/usr/bin/env python3</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> sys</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> requests</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> json</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> os</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> get_config</span><span style="color:#E1E4E8">():</span></span>
+<span class="line"><span style="color:#E1E4E8">    config_path </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> os.path.join(os.path.dirname(</span><span style="color:#79B8FF">__file__</span><span style="color:#E1E4E8">), </span><span style="color:#9ECBFF">'config.json'</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> os.path.exists(config_path):</span></span>
+<span class="line"><span style="color:#F97583">        with</span><span style="color:#79B8FF"> open</span><span style="color:#E1E4E8">(config_path, </span><span style="color:#9ECBFF">'r'</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">as</span><span style="color:#E1E4E8"> f:</span></span>
+<span class="line"><span style="color:#F97583">            return</span><span style="color:#E1E4E8"> json.load(f)</span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#E1E4E8"> {}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> main</span><span style="color:#E1E4E8">():</span></span>
+<span class="line"><span style="color:#E1E4E8">    config </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> get_config()</span></span>
+<span class="line"><span style="color:#E1E4E8">    api_key </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> config.get(</span><span style="color:#9ECBFF">'api_key'</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    units </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> config.get(</span><span style="color:#9ECBFF">'units'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'metric'</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#F97583"> not</span><span style="color:#E1E4E8"> api_key:</span></span>
+<span class="line"><span style="color:#79B8FF">        print</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">"Error: API key not configured. Run: config set weather.api_key YOUR_API_KEY"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">        return</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#E1E4E8">    city </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> sys.argv[</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">] </span><span style="color:#F97583">if</span><span style="color:#79B8FF"> len</span><span style="color:#E1E4E8">(sys.argv) </span><span style="color:#F97583">></span><span style="color:#79B8FF"> 1</span><span style="color:#F97583"> else</span><span style="color:#9ECBFF"> "London"</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#E1E4E8">    url </span><span style="color:#F97583">=</span><span style="color:#F97583"> f</span><span style="color:#9ECBFF">"http://api.openweathermap.org/data/2.5/weather"</span></span>
+<span class="line"><span style="color:#E1E4E8">    params </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#9ECBFF">        'q'</span><span style="color:#E1E4E8">: city,</span></span>
+<span class="line"><span style="color:#9ECBFF">        'appid'</span><span style="color:#E1E4E8">: api_key,</span></span>
+<span class="line"><span style="color:#9ECBFF">        'units'</span><span style="color:#E1E4E8">: units</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    try</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">        response </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> requests.get(url, </span><span style="color:#FFAB70">params</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">params)</span></span>
+<span class="line"><span style="color:#E1E4E8">        data </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> response.json()</span></span>
+<span class="line"><span style="color:#E1E4E8">        </span></span>
+<span class="line"><span style="color:#F97583">        if</span><span style="color:#E1E4E8"> response.status_code </span><span style="color:#F97583">==</span><span style="color:#79B8FF"> 200</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">            temp </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> data[</span><span style="color:#9ECBFF">'main'</span><span style="color:#E1E4E8">][</span><span style="color:#9ECBFF">'temp'</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#E1E4E8">            description </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> data[</span><span style="color:#9ECBFF">'weather'</span><span style="color:#E1E4E8">][</span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">][</span><span style="color:#9ECBFF">'description'</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#E1E4E8">            humidity </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> data[</span><span style="color:#9ECBFF">'main'</span><span style="color:#E1E4E8">][</span><span style="color:#9ECBFF">'humidity'</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#E1E4E8">            </span></span>
+<span class="line"><span style="color:#E1E4E8">            unit_symbol </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> "°C"</span><span style="color:#F97583"> if</span><span style="color:#E1E4E8"> units </span><span style="color:#F97583">==</span><span style="color:#9ECBFF"> "metric"</span><span style="color:#F97583"> else</span><span style="color:#9ECBFF"> "°F"</span></span>
+<span class="line"><span style="color:#79B8FF">            print</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"Weather in </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">city</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">:"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#79B8FF">            print</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"Temperature: </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">temp</span><span style="color:#79B8FF">}{</span><span style="color:#E1E4E8">unit_symbol</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#79B8FF">            print</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"Description: </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">description</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#79B8FF">            print</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"Humidity: </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">humidity</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">%"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">        else</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#79B8FF">            print</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"Error: </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">data.get(</span><span style="color:#9ECBFF">'message'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'Unknown error'</span><span style="color:#E1E4E8">)</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">    except</span><span style="color:#79B8FF"> Exception</span><span style="color:#F97583"> as</span><span style="color:#E1E4E8"> e:</span></span>
+<span class="line"><span style="color:#79B8FF">        print</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"Error: </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">e</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">if</span><span style="color:#79B8FF"> __name__</span><span style="color:#F97583"> ==</span><span style="color:#9ECBFF"> "__main__"</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    main()</span></span></code></pre>
+<h3 id="git-helper-plugin">Git Helper Plugin</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># plugin.toml</span></span>
+<span class="line"><span style="color:#E1E4E8">name = </span><span style="color:#9ECBFF">"git-helper"</span></span>
+<span class="line"><span style="color:#E1E4E8">version = </span><span style="color:#9ECBFF">"1.0.0"</span></span>
+<span class="line"><span style="color:#E1E4E8">description = </span><span style="color:#9ECBFF">"Git workflow helpers"</span></span>
+<span class="line"><span style="color:#E1E4E8">author = </span><span style="color:#9ECBFF">"Git Enthusiast"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">[</span><span style="color:#B392F0">commands</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#E1E4E8">git-status = { description = </span><span style="color:#9ECBFF">"Enhanced git status"</span><span style="color:#E1E4E8">, usage = </span><span style="color:#9ECBFF">"git-status"</span><span style="color:#E1E4E8">, script = </span><span style="color:#9ECBFF">"git_status.py"</span><span style="color:#E1E4E8">, language = </span><span style="color:#9ECBFF">"python"</span><span style="color:#E1E4E8">, enabled = </span><span style="color:#79B8FF">true</span><span style="color:#E1E4E8"> }</span></span>
+<span class="line"><span style="color:#E1E4E8">git-branch = { description = </span><span style="color:#9ECBFF">"Show current branch"</span><span style="color:#E1E4E8">, usage = </span><span style="color:#9ECBFF">"git-branch"</span><span style="color:#E1E4E8">, script = </span><span style="color:#9ECBFF">"git_branch.py"</span><span style="color:#E1E4E8">, language = </span><span style="color:#9ECBFF">"python"</span><span style="color:#E1E4E8">, enabled = </span><span style="color:#79B8FF">true</span><span style="color:#E1E4E8"> }</span></span>
+<span class="line"><span style="color:#E1E4E8">git-commit = { description = </span><span style="color:#9ECBFF">"Quick commit"</span><span style="color:#E1E4E8">, usage = </span><span style="color:#9ECBFF">"git-commit [message]"</span><span style="color:#E1E4E8">, script = </span><span style="color:#9ECBFF">"git_commit.py"</span><span style="color:#E1E4E8">, language = </span><span style="color:#9ECBFF">"python"</span><span style="color:#E1E4E8">, enabled = </span><span style="color:#79B8FF">true</span><span style="color:#E1E4E8"> }</span></span></code></pre>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># git_status.py</span></span>
+<span class="line"><span style="color:#6A737D">#!/usr/bin/env python3</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> subprocess</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> sys</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> run_git_command</span><span style="color:#E1E4E8">(args):</span></span>
+<span class="line"><span style="color:#F97583">    try</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">        result </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> subprocess.run([</span><span style="color:#9ECBFF">'git'</span><span style="color:#E1E4E8">] </span><span style="color:#F97583">+</span><span style="color:#E1E4E8"> args, </span><span style="color:#FFAB70">capture_output</span><span style="color:#F97583">=</span><span style="color:#79B8FF">True</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">text</span><span style="color:#F97583">=</span><span style="color:#79B8FF">True</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8"> result.stdout.strip(), result.stderr.strip(), result.returncode</span></span>
+<span class="line"><span style="color:#F97583">    except</span><span style="color:#79B8FF"> FileNotFoundError</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#9ECBFF"> ""</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">"git not found"</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">1</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> main</span><span style="color:#E1E4E8">():</span></span>
+<span class="line"><span style="color:#6A737D">    # Get git status</span></span>
+<span class="line"><span style="color:#E1E4E8">    status, stderr, code </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> run_git_command([</span><span style="color:#9ECBFF">'status'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'--porcelain'</span><span style="color:#E1E4E8">])</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> code </span><span style="color:#F97583">!=</span><span style="color:#79B8FF"> 0</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#79B8FF">        print</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"Error: </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">stderr</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">        return</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#F97583"> not</span><span style="color:#E1E4E8"> status:</span></span>
+<span class="line"><span style="color:#79B8FF">        print</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">"Working directory clean"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">        return</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#79B8FF">    print</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">"Git Status:"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">    for</span><span style="color:#E1E4E8"> line </span><span style="color:#F97583">in</span><span style="color:#E1E4E8"> status.split(</span><span style="color:#9ECBFF">'</span><span style="color:#79B8FF">\n</span><span style="color:#9ECBFF">'</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#F97583">        if</span><span style="color:#E1E4E8"> line:</span></span>
+<span class="line"><span style="color:#E1E4E8">            status_code </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> line[:</span><span style="color:#79B8FF">2</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#E1E4E8">            file_path </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> line[</span><span style="color:#79B8FF">3</span><span style="color:#E1E4E8">:]</span></span>
+<span class="line"><span style="color:#E1E4E8">            </span></span>
+<span class="line"><span style="color:#F97583">            if</span><span style="color:#E1E4E8"> status_code </span><span style="color:#F97583">==</span><span style="color:#9ECBFF"> 'M '</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#79B8FF">                print</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"  Modified: </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">file_path</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">            elif</span><span style="color:#E1E4E8"> status_code </span><span style="color:#F97583">==</span><span style="color:#9ECBFF"> ' M'</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#79B8FF">                print</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"  Modified (staged): </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">file_path</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">            elif</span><span style="color:#E1E4E8"> status_code </span><span style="color:#F97583">==</span><span style="color:#9ECBFF"> 'A '</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#79B8FF">                print</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"  Added: </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">file_path</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">            elif</span><span style="color:#E1E4E8"> status_code </span><span style="color:#F97583">==</span><span style="color:#9ECBFF"> '??'</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#79B8FF">                print</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"  Untracked: </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">file_path</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">            else</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#79B8FF">                print</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"  </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">status_code</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">: </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">file_path</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">if</span><span style="color:#79B8FF"> __name__</span><span style="color:#F97583"> ==</span><span style="color:#9ECBFF"> "__main__"</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    main()</span></span></code></pre>
+<h2 id="best-practices">Best Practices</h2>
+<h3 id="1-error-handling">1. Error Handling</h3>
+<p>Always handle errors gracefully:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D">#!/usr/bin/env python3</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> sys</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> main</span><span style="color:#E1E4E8">():</span></span>
+<span class="line"><span style="color:#F97583">    try</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#6A737D">        # Your plugin logic here</span></span>
+<span class="line"><span style="color:#E1E4E8">        result </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> process_command(sys.argv[</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">:])</span></span>
+<span class="line"><span style="color:#79B8FF">        print</span><span style="color:#E1E4E8">(result)</span></span>
+<span class="line"><span style="color:#F97583">    except</span><span style="color:#79B8FF"> IndexError</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#79B8FF">        print</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">"Error: Missing required argument"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#79B8FF">        print</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">"Usage: my-command [argument]"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">    except</span><span style="color:#79B8FF"> Exception</span><span style="color:#F97583"> as</span><span style="color:#E1E4E8"> e:</span></span>
+<span class="line"><span style="color:#79B8FF">        print</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"Error: </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">e</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">        sys.exit(</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">if</span><span style="color:#79B8FF"> __name__</span><span style="color:#F97583"> ==</span><span style="color:#9ECBFF"> "__main__"</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    main()</span></span></code></pre>
+<h3 id="2-configuration-validation">2. Configuration Validation</h3>
+<p>Validate plugin configuration:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> validate_config</span><span style="color:#E1E4E8">(config):</span></span>
+<span class="line"><span style="color:#E1E4E8">    required_keys </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> [</span><span style="color:#9ECBFF">'api_key'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'endpoint'</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#E1E4E8">    missing_keys </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> [key </span><span style="color:#F97583">for</span><span style="color:#E1E4E8"> key </span><span style="color:#F97583">in</span><span style="color:#E1E4E8"> required_keys </span><span style="color:#F97583">if</span><span style="color:#E1E4E8"> key </span><span style="color:#F97583">not</span><span style="color:#F97583"> in</span><span style="color:#E1E4E8"> config]</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> missing_keys:</span></span>
+<span class="line"><span style="color:#79B8FF">        print</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"Error: Missing required configuration: </span><span style="color:#79B8FF">{</span><span style="color:#9ECBFF">', '</span><span style="color:#E1E4E8">.join(missing_keys)</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#79B8FF">        print</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">"Run: config set my-plugin.api_key YOUR_API_KEY"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#79B8FF"> False</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#79B8FF"> True</span></span></code></pre>
+<h3 id="3-documentation">3. Documentation</h3>
+<p>Always include documentation:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#79B8FF;font-weight:bold"># My Plugin</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF;font-weight:bold">## Description</span></span>
+<span class="line"><span style="color:#E1E4E8">Brief description of what the plugin does.</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF;font-weight:bold">## Installation</span></span>
+<span class="line"><span style="color:#E1E4E8">```bash</span></span>
+<span class="line"><span style="color:#B392F0">install-plugin</span><span style="color:#9ECBFF"> https://github.com/username/my-plugin</span></span></code></pre>
+<h2 id="configuration">Configuration</h2>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#B392F0">config</span><span style="color:#9ECBFF"> set</span><span style="color:#9ECBFF"> my-plugin.api_key</span><span style="color:#9ECBFF"> YOUR_API_KEY</span></span></code></pre>
+<h2 id="usage">Usage</h2>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#B392F0">my-command</span><span style="color:#E1E4E8"> [options]</span></span></code></pre>
+<h2 id="examples">Examples</h2>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#B392F0">my-command</span><span style="color:#79B8FF"> --help</span></span>
+<span class="line"><span style="color:#B392F0">my-command</span><span style="color:#9ECBFF"> process-file.txt</span></span></code></pre>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span></span></span>
+<span class="line"><span>### 4. Testing</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Test your plugins thoroughly:</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>```bash</span></span>
+<span class="line"><span># Test command execution</span></span>
+<span class="line"><span>./hello.py "Test User"</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># Test with different arguments</span></span>
+<span class="line"><span>./calculator.py "2 + 2"</span></span>
+<span class="line"><span>./calculator.py "invalid expression"</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># Test configuration</span></span>
+<span class="line"><span>config set my-plugin.greeting "Hi"</span></span>
+<span class="line"><span>./hello.py "User"</span></span></code></pre>
+<h2 id="publishing-plugins">Publishing Plugins</h2>
+<h3 id="create-a-repository">Create a Repository</h3>
+<ol>
+<li>Create a Git repository for your plugin</li>
+<li>Include all necessary files (plugin.toml, scripts, README.md)</li>
+<li>Add proper documentation and examples</li>
+</ol>
+<h3 id="share-your-plugin">Share Your Plugin</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Users can install from your repository</span></span>
+<span class="line"><span style="color:#B392F0">install-plugin</span><span style="color:#9ECBFF"> https://github.com/username/my-plugin</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Or publish as an npm package</span></span>
+<span class="line"><span style="color:#B392F0">npm</span><span style="color:#9ECBFF"> publish</span><span style="color:#9ECBFF"> @username/macbrew-plugin-name</span></span></code></pre>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="common-issues">Common Issues</h3>
+<p><strong>Plugin not loading:</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Check plugin syntax</span></span>
+<span class="line"><span style="color:#B392F0">plugins</span><span style="color:#9ECBFF"> list</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Check plugin logs</span></span>
+<span class="line"><span style="color:#B392F0">tail</span><span style="color:#79B8FF"> -f</span><span style="color:#9ECBFF"> ~/.config/terminal-emulator/plugin.log</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Reload plugins</span></span>
+<span class="line"><span style="color:#B392F0">plugins</span><span style="color:#9ECBFF"> reload</span></span></code></pre>
+<p><strong>Command not found:</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Verify plugin is enabled</span></span>
+<span class="line"><span style="color:#B392F0">plugins</span><span style="color:#9ECBFF"> list</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Check command script exists</span></span>
+<span class="line"><span style="color:#B392F0">ls</span><span style="color:#9ECBFF"> ~/.config/terminal-emulator/plugins/my-plugin/</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Check script permissions</span></span>
+<span class="line"><span style="color:#B392F0">chmod</span><span style="color:#9ECBFF"> +x</span><span style="color:#9ECBFF"> ~/.config/terminal-emulator/plugins/my-plugin/command.py</span></span></code></pre>
+<p><strong>Configuration issues:</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Check plugin configuration</span></span>
+<span class="line"><span style="color:#B392F0">config</span><span style="color:#9ECBFF"> list</span><span style="color:#9ECBFF"> my-plugin</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Reset plugin configuration</span></span>
+<span class="line"><span style="color:#B392F0">config</span><span style="color:#9ECBFF"> reset</span><span style="color:#9ECBFF"> my-plugin</span></span></code></pre>
+<h2 id="next-steps">Next Steps</h2>
+<ul>
+<li><a href="/docs/commands">Command Reference</a> - Browse available commands</li>
+<li><a href="/docs/configuration">Configuration</a> - Customize your experience</li>
+<li><a href="/docs/api">API Reference</a> - Programmatic access to Macbrew</li>
+<li><a href="/docs/examples">Examples</a> - More plugin examples</li>
+</ul> </main> <!-- Prism.js script -->   </body> </html> 

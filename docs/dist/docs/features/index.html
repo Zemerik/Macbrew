@@ -1,0 +1,359 @@
+<!DOCTYPE html><html lang="en" class="scroll-smooth"> <head><meta charset="UTF-8"><meta name="description" content="Advanced terminal emulator built in Rust with Python integration - A comprehensive command-line experience"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v3.6.5"><title></title><link rel="canonical" href="https://macbrew.dev/docs/features/"><!-- Open Graph --><meta property="og:type" content="website"><meta property="og:url" content="https://macbrew.dev/docs/features/"><meta property="og:title"><meta property="og:description" content="Advanced terminal emulator built in Rust with Python integration - A comprehensive command-line experience"><meta property="og:image" content="https://macbrew.dev/og-image.png"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://macbrew.dev/docs/features/"><meta property="twitter:title"><meta property="twitter:description" content="Advanced terminal emulator built in Rust with Python integration - A comprehensive command-line experience"><meta property="twitter:image" content="https://macbrew.dev/og-image.png"><!-- Fonts --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"><!-- Prism.js for syntax highlighting --><link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet"><link rel="stylesheet" href="/global.css"><link rel="stylesheet" href="/_astro/api.c1af7efe.css" /><script type="module" src="/_astro/hoisted.85e05fd5.js"></script></head> <body class="bg-gradient-to-br from-blue-50 via-sky-100 to-purple-100 dark:from-dark-900 dark:via-blue-950 dark:to-black text-dark-900 dark:text-white antialiased min-h-screen"> <main class="prose prose-lg prose-invert mx-auto px-4 py-8 max-w-4xl"> <h1 id="features">Features</h1>
+<p>Macbrew is packed with powerful features designed to enhance your command-line experience.</p>
+<h2 id="core-features">Core Features</h2>
+<h3 id="-real-python-execution">🎯 Real Python Execution</h3>
+<p>Execute Python scripts and interactive Python sessions directly from the terminal:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Run a Python script</span></span>
+<span class="line"><span style="color:#B392F0">python</span><span style="color:#9ECBFF"> script.py</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Interactive Python session</span></span>
+<span class="line"><span style="color:#B392F0">python</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># One-liner execution</span></span>
+<span class="line"><span style="color:#B392F0">python</span><span style="color:#79B8FF"> -c</span><span style="color:#9ECBFF"> "print('Hello from Python!')"</span></span></code></pre>
+<h3 id="-command-history">📚 Command History</h3>
+<p>Persistent command history with search and navigation:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># View history</span></span>
+<span class="line"><span style="color:#79B8FF">history</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Search history</span></span>
+<span class="line"><span style="color:#79B8FF">history</span><span style="color:#F97583"> |</span><span style="color:#B392F0"> grep</span><span style="color:#9ECBFF"> "python"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Navigate with arrow keys or Ctrl+R</span></span></code></pre>
+<h3 id="-intelligent-autocomplete">🔍 Intelligent Autocomplete</h3>
+<p>Smart command and file path completion:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Tab completion for commands</span></span>
+<span class="line"><span style="color:#B392F0">py&#x3C;TAB></span><span style="color:#6A737D">  # Completes to "python"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># File path completion</span></span>
+<span class="line"><span style="color:#B392F0">ls</span><span style="color:#9ECBFF"> /usr/loc</span><span style="color:#F97583">&#x3C;</span><span style="color:#9ECBFF">TA</span><span style="color:#E1E4E8">B</span><span style="color:#F97583">></span><span style="color:#6A737D">  # Completes to "/usr/local/"</span></span></code></pre>
+<h3 id="️-job-control">⚙️ Job Control</h3>
+<p>Manage background processes with advanced job control:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Run command in background</span></span>
+<span class="line"><span style="color:#B392F0">long_running_command</span><span style="color:#E1E4E8"> &#x26;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># List background jobs</span></span>
+<span class="line"><span style="color:#79B8FF">jobs</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Bring job to foreground</span></span>
+<span class="line"><span style="color:#79B8FF">fg</span><span style="color:#79B8FF"> 1</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Continue background job</span></span>
+<span class="line"><span style="color:#79B8FF">bg</span><span style="color:#79B8FF"> 1</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Kill job</span></span>
+<span class="line"><span style="color:#79B8FF">kill</span><span style="color:#9ECBFF"> %1</span></span></code></pre>
+<h3 id="-plugin-system">🔌 Plugin System</h3>
+<p>Extensible plugin architecture for custom commands:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># List installed plugins</span></span>
+<span class="line"><span style="color:#B392F0">plugins</span><span style="color:#9ECBFF"> list</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Install a plugin</span></span>
+<span class="line"><span style="color:#B392F0">install-plugin</span><span style="color:#9ECBFF"> my-plugin</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Use plugin commands</span></span>
+<span class="line"><span style="color:#B392F0">hello</span><span style="color:#9ECBFF"> World</span></span>
+<span class="line"><span style="color:#B392F0">weather</span><span style="color:#9ECBFF"> Tokyo</span></span></code></pre>
+<h2 id="file-operations">File Operations</h2>
+<h3 id="basic-commands">Basic Commands</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># File listing and navigation</span></span>
+<span class="line"><span style="color:#B392F0">ls</span><span style="color:#79B8FF"> -la</span></span>
+<span class="line"><span style="color:#79B8FF">cd</span><span style="color:#9ECBFF"> /path/to/directory</span></span>
+<span class="line"><span style="color:#79B8FF">pwd</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># File viewing and editing</span></span>
+<span class="line"><span style="color:#B392F0">cat</span><span style="color:#9ECBFF"> filename.txt</span></span>
+<span class="line"><span style="color:#B392F0">head</span><span style="color:#79B8FF"> -n</span><span style="color:#79B8FF"> 10</span><span style="color:#9ECBFF"> file.txt</span></span>
+<span class="line"><span style="color:#B392F0">tail</span><span style="color:#79B8FF"> -f</span><span style="color:#9ECBFF"> log.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># File manipulation</span></span>
+<span class="line"><span style="color:#B392F0">cp</span><span style="color:#9ECBFF"> source.txt</span><span style="color:#9ECBFF"> destination.txt</span></span>
+<span class="line"><span style="color:#B392F0">mv</span><span style="color:#9ECBFF"> oldname.txt</span><span style="color:#9ECBFF"> newname.txt</span></span>
+<span class="line"><span style="color:#B392F0">rm</span><span style="color:#9ECBFF"> filename.txt</span></span>
+<span class="line"><span style="color:#B392F0">mkdir</span><span style="color:#9ECBFF"> newdirectory</span></span></code></pre>
+<h3 id="advanced-file-operations">Advanced File Operations</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Find files</span></span>
+<span class="line"><span style="color:#B392F0">find</span><span style="color:#9ECBFF"> .</span><span style="color:#79B8FF"> -name</span><span style="color:#9ECBFF"> "*.txt"</span><span style="color:#79B8FF"> -type</span><span style="color:#9ECBFF"> f</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Search in files</span></span>
+<span class="line"><span style="color:#B392F0">grep</span><span style="color:#9ECBFF"> "pattern"</span><span style="color:#9ECBFF"> file.txt</span></span>
+<span class="line"><span style="color:#B392F0">grep</span><span style="color:#79B8FF"> -r</span><span style="color:#9ECBFF"> "pattern"</span><span style="color:#9ECBFF"> directory/</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># File permissions</span></span>
+<span class="line"><span style="color:#B392F0">chmod</span><span style="color:#79B8FF"> 755</span><span style="color:#9ECBFF"> script.sh</span></span>
+<span class="line"><span style="color:#B392F0">chown</span><span style="color:#9ECBFF"> user:group</span><span style="color:#9ECBFF"> file.txt</span></span>
+<span class="line"><span style="color:#B392F0">chgrp</span><span style="color:#9ECBFF"> developers</span><span style="color:#9ECBFF"> file.txt</span></span></code></pre>
+<h3 id="text-processing">Text Processing</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Text manipulation</span></span>
+<span class="line"><span style="color:#B392F0">sort</span><span style="color:#9ECBFF"> file.txt</span></span>
+<span class="line"><span style="color:#B392F0">uniq</span><span style="color:#9ECBFF"> file.txt</span></span>
+<span class="line"><span style="color:#B392F0">cut</span><span style="color:#79B8FF"> -d</span><span style="color:#9ECBFF">','</span><span style="color:#79B8FF"> -f1,3</span><span style="color:#9ECBFF"> data.csv</span></span>
+<span class="line"><span style="color:#B392F0">paste</span><span style="color:#9ECBFF"> file1.txt</span><span style="color:#9ECBFF"> file2.txt</span></span>
+<span class="line"><span style="color:#B392F0">tr</span><span style="color:#9ECBFF"> '[:lower:]'</span><span style="color:#9ECBFF"> '[:upper:]'</span><span style="color:#F97583"> &#x3C;</span><span style="color:#9ECBFF"> input.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Advanced text processing</span></span>
+<span class="line"><span style="color:#B392F0">sed</span><span style="color:#9ECBFF"> 's/old/new/g'</span><span style="color:#9ECBFF"> file.txt</span></span>
+<span class="line"><span style="color:#B392F0">awk</span><span style="color:#9ECBFF"> '{print $1, $3}'</span><span style="color:#9ECBFF"> file.txt</span></span></code></pre>
+<h2 id="system-administration">System Administration</h2>
+<h3 id="process-management">Process Management</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># View processes</span></span>
+<span class="line"><span style="color:#B392F0">ps</span><span style="color:#9ECBFF"> aux</span></span>
+<span class="line"><span style="color:#B392F0">ps</span><span style="color:#79B8FF"> -ef</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Monitor system resources</span></span>
+<span class="line"><span style="color:#B392F0">top</span></span>
+<span class="line"><span style="color:#B392F0">htop</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Kill processes</span></span>
+<span class="line"><span style="color:#79B8FF">kill</span><span style="color:#79B8FF"> -9</span><span style="color:#9ECBFF"> process_id</span></span>
+<span class="line"><span style="color:#B392F0">pkill</span><span style="color:#9ECBFF"> process_name</span></span></code></pre>
+<h3 id="system-services">System Services</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Service management</span></span>
+<span class="line"><span style="color:#B392F0">systemctl</span><span style="color:#9ECBFF"> status</span><span style="color:#9ECBFF"> service_name</span></span>
+<span class="line"><span style="color:#B392F0">systemctl</span><span style="color:#9ECBFF"> start</span><span style="color:#9ECBFF"> service_name</span></span>
+<span class="line"><span style="color:#B392F0">systemctl</span><span style="color:#9ECBFF"> stop</span><span style="color:#9ECBFF"> service_name</span></span>
+<span class="line"><span style="color:#B392F0">systemctl</span><span style="color:#9ECBFF"> restart</span><span style="color:#9ECBFF"> service_name</span></span>
+<span class="line"><span style="color:#B392F0">systemctl</span><span style="color:#9ECBFF"> enable</span><span style="color:#9ECBFF"> service_name</span></span></code></pre>
+<h3 id="user-management">User Management</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># User operations</span></span>
+<span class="line"><span style="color:#B392F0">useradd</span><span style="color:#9ECBFF"> username</span></span>
+<span class="line"><span style="color:#B392F0">userdel</span><span style="color:#9ECBFF"> username</span></span>
+<span class="line"><span style="color:#B392F0">passwd</span><span style="color:#9ECBFF"> username</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Group operations</span></span>
+<span class="line"><span style="color:#B392F0">groupadd</span><span style="color:#9ECBFF"> groupname</span></span>
+<span class="line"><span style="color:#B392F0">groupdel</span><span style="color:#9ECBFF"> groupname</span></span>
+<span class="line"><span style="color:#B392F0">usermod</span><span style="color:#79B8FF"> -aG</span><span style="color:#9ECBFF"> groupname</span><span style="color:#9ECBFF"> username</span></span></code></pre>
+<h2 id="networking">Networking</h2>
+<h3 id="network-diagnostics">Network Diagnostics</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Connectivity testing</span></span>
+<span class="line"><span style="color:#B392F0">ping</span><span style="color:#9ECBFF"> google.com</span></span>
+<span class="line"><span style="color:#B392F0">ping6</span><span style="color:#9ECBFF"> ipv6.google.com</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Network information</span></span>
+<span class="line"><span style="color:#B392F0">ifconfig</span></span>
+<span class="line"><span style="color:#B392F0">ip</span><span style="color:#9ECBFF"> addr</span><span style="color:#9ECBFF"> show</span></span>
+<span class="line"><span style="color:#B392F0">netstat</span><span style="color:#79B8FF"> -tuln</span></span>
+<span class="line"><span style="color:#B392F0">ss</span><span style="color:#79B8FF"> -tuln</span></span></code></pre>
+<h3 id="network-tools">Network Tools</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># HTTP requests</span></span>
+<span class="line"><span style="color:#B392F0">curl</span><span style="color:#9ECBFF"> https://api.github.com</span></span>
+<span class="line"><span style="color:#B392F0">wget</span><span style="color:#9ECBFF"> https://example.com/file.zip</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># SSH operations</span></span>
+<span class="line"><span style="color:#B392F0">ssh</span><span style="color:#9ECBFF"> user@hostname</span></span>
+<span class="line"><span style="color:#B392F0">scp</span><span style="color:#9ECBFF"> file.txt</span><span style="color:#9ECBFF"> user@hostname:/path/</span></span>
+<span class="line"><span style="color:#B392F0">rsync</span><span style="color:#79B8FF"> -av</span><span style="color:#9ECBFF"> source/</span><span style="color:#9ECBFF"> destination/</span></span></code></pre>
+<h3 id="network-analysis">Network Analysis</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Port scanning</span></span>
+<span class="line"><span style="color:#B392F0">nmap</span><span style="color:#9ECBFF"> localhost</span></span>
+<span class="line"><span style="color:#B392F0">nmap</span><span style="color:#79B8FF"> -p</span><span style="color:#79B8FF"> 80</span><span style="color:#9ECBFF">,443</span><span style="color:#9ECBFF"> example.com</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Network monitoring</span></span>
+<span class="line"><span style="color:#B392F0">iftop</span></span>
+<span class="line"><span style="color:#B392F0">nethogs</span></span>
+<span class="line"><span style="color:#B392F0">tcpdump</span><span style="color:#79B8FF"> -i</span><span style="color:#9ECBFF"> eth0</span></span></code></pre>
+<h2 id="security--cryptography">Security &#x26; Cryptography</h2>
+<h3 id="hashing">Hashing</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Generate hashes</span></span>
+<span class="line"><span style="color:#B392F0">md5sum</span><span style="color:#9ECBFF"> file.txt</span></span>
+<span class="line"><span style="color:#B392F0">sha256sum</span><span style="color:#9ECBFF"> file.txt</span></span>
+<span class="line"><span style="color:#B392F0">sha512sum</span><span style="color:#9ECBFF"> file.txt</span></span></code></pre>
+<h3 id="encryption">Encryption</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># File encryption</span></span>
+<span class="line"><span style="color:#B392F0">openssl</span><span style="color:#9ECBFF"> enc</span><span style="color:#79B8FF"> -aes-256-cbc</span><span style="color:#79B8FF"> -in</span><span style="color:#9ECBFF"> file.txt</span><span style="color:#79B8FF"> -out</span><span style="color:#9ECBFF"> file.enc</span></span>
+<span class="line"><span style="color:#B392F0">openssl</span><span style="color:#9ECBFF"> enc</span><span style="color:#79B8FF"> -aes-256-cbc</span><span style="color:#79B8FF"> -d</span><span style="color:#79B8FF"> -in</span><span style="color:#9ECBFF"> file.enc</span><span style="color:#79B8FF"> -out</span><span style="color:#9ECBFF"> file.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># GPG operations</span></span>
+<span class="line"><span style="color:#B392F0">gpg</span><span style="color:#79B8FF"> --encrypt</span><span style="color:#9ECBFF"> file.txt</span></span>
+<span class="line"><span style="color:#B392F0">gpg</span><span style="color:#79B8FF"> --decrypt</span><span style="color:#9ECBFF"> file.txt.gpg</span></span></code></pre>
+<h3 id="ssh-key-management">SSH Key Management</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Generate SSH keys</span></span>
+<span class="line"><span style="color:#B392F0">ssh-keygen</span><span style="color:#79B8FF"> -t</span><span style="color:#9ECBFF"> rsa</span><span style="color:#79B8FF"> -b</span><span style="color:#79B8FF"> 4096</span></span>
+<span class="line"><span style="color:#B392F0">ssh-keygen</span><span style="color:#79B8FF"> -t</span><span style="color:#9ECBFF"> ed25519</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Copy public key</span></span>
+<span class="line"><span style="color:#B392F0">ssh-copy-id</span><span style="color:#9ECBFF"> user@hostname</span></span></code></pre>
+<h2 id="package-management">Package Management</h2>
+<h3 id="homebrew-integration">Homebrew Integration</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Package operations</span></span>
+<span class="line"><span style="color:#B392F0">brew</span><span style="color:#9ECBFF"> install</span><span style="color:#9ECBFF"> package_name</span></span>
+<span class="line"><span style="color:#B392F0">brew</span><span style="color:#9ECBFF"> uninstall</span><span style="color:#9ECBFF"> package_name</span></span>
+<span class="line"><span style="color:#B392F0">brew</span><span style="color:#9ECBFF"> search</span><span style="color:#9ECBFF"> query</span></span>
+<span class="line"><span style="color:#B392F0">brew</span><span style="color:#9ECBFF"> update</span></span>
+<span class="line"><span style="color:#B392F0">brew</span><span style="color:#9ECBFF"> upgrade</span></span>
+<span class="line"><span style="color:#B392F0">brew</span><span style="color:#9ECBFF"> list</span></span></code></pre>
+<h3 id="python-package-management">Python Package Management</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># pip operations</span></span>
+<span class="line"><span style="color:#B392F0">pip</span><span style="color:#9ECBFF"> install</span><span style="color:#9ECBFF"> package_name</span></span>
+<span class="line"><span style="color:#B392F0">pip</span><span style="color:#9ECBFF"> uninstall</span><span style="color:#9ECBFF"> package_name</span></span>
+<span class="line"><span style="color:#B392F0">pip</span><span style="color:#9ECBFF"> list</span></span>
+<span class="line"><span style="color:#B392F0">pip</span><span style="color:#9ECBFF"> freeze</span><span style="color:#F97583"> ></span><span style="color:#9ECBFF"> requirements.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># conda operations</span></span>
+<span class="line"><span style="color:#B392F0">conda</span><span style="color:#9ECBFF"> install</span><span style="color:#9ECBFF"> package_name</span></span>
+<span class="line"><span style="color:#B392F0">conda</span><span style="color:#9ECBFF"> create</span><span style="color:#79B8FF"> -n</span><span style="color:#9ECBFF"> env_name</span><span style="color:#9ECBFF"> python=</span><span style="color:#79B8FF">3.11</span></span>
+<span class="line"><span style="color:#B392F0">conda</span><span style="color:#9ECBFF"> activate</span><span style="color:#9ECBFF"> env_name</span></span></code></pre>
+<h3 id="nodejs-package-management">Node.js Package Management</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># npm operations</span></span>
+<span class="line"><span style="color:#B392F0">npm</span><span style="color:#9ECBFF"> install</span><span style="color:#9ECBFF"> package_name</span></span>
+<span class="line"><span style="color:#B392F0">npm</span><span style="color:#9ECBFF"> uninstall</span><span style="color:#9ECBFF"> package_name</span></span>
+<span class="line"><span style="color:#B392F0">npm</span><span style="color:#9ECBFF"> list</span></span>
+<span class="line"><span style="color:#B392F0">npm</span><span style="color:#9ECBFF"> update</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># yarn operations</span></span>
+<span class="line"><span style="color:#B392F0">yarn</span><span style="color:#9ECBFF"> add</span><span style="color:#9ECBFF"> package_name</span></span>
+<span class="line"><span style="color:#B392F0">yarn</span><span style="color:#9ECBFF"> remove</span><span style="color:#9ECBFF"> package_name</span></span>
+<span class="line"><span style="color:#B392F0">yarn</span><span style="color:#9ECBFF"> list</span></span></code></pre>
+<h2 id="devops--cloud">DevOps &#x26; Cloud</h2>
+<h3 id="container-management">Container Management</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Docker operations</span></span>
+<span class="line"><span style="color:#B392F0">docker</span><span style="color:#9ECBFF"> run</span><span style="color:#79B8FF"> -it</span><span style="color:#9ECBFF"> ubuntu</span><span style="color:#9ECBFF"> bash</span></span>
+<span class="line"><span style="color:#B392F0">docker</span><span style="color:#9ECBFF"> ps</span></span>
+<span class="line"><span style="color:#B392F0">docker</span><span style="color:#9ECBFF"> images</span></span>
+<span class="line"><span style="color:#B392F0">docker</span><span style="color:#9ECBFF"> build</span><span style="color:#79B8FF"> -t</span><span style="color:#9ECBFF"> myimage</span><span style="color:#9ECBFF"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Kubernetes operations</span></span>
+<span class="line"><span style="color:#B392F0">kubectl</span><span style="color:#9ECBFF"> get</span><span style="color:#9ECBFF"> pods</span></span>
+<span class="line"><span style="color:#B392F0">kubectl</span><span style="color:#9ECBFF"> apply</span><span style="color:#79B8FF"> -f</span><span style="color:#9ECBFF"> deployment.yaml</span></span>
+<span class="line"><span style="color:#B392F0">kubectl</span><span style="color:#9ECBFF"> logs</span><span style="color:#9ECBFF"> pod-name</span></span></code></pre>
+<h3 id="infrastructure-as-code">Infrastructure as Code</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Terraform operations</span></span>
+<span class="line"><span style="color:#B392F0">terraform</span><span style="color:#9ECBFF"> init</span></span>
+<span class="line"><span style="color:#B392F0">terraform</span><span style="color:#9ECBFF"> plan</span></span>
+<span class="line"><span style="color:#B392F0">terraform</span><span style="color:#9ECBFF"> apply</span></span>
+<span class="line"><span style="color:#B392F0">terraform</span><span style="color:#9ECBFF"> destroy</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Ansible operations</span></span>
+<span class="line"><span style="color:#B392F0">ansible-playbook</span><span style="color:#9ECBFF"> playbook.yml</span></span>
+<span class="line"><span style="color:#B392F0">ansible</span><span style="color:#79B8FF"> -m</span><span style="color:#9ECBFF"> ping</span><span style="color:#9ECBFF"> all</span></span></code></pre>
+<h2 id="text-editors">Text Editors</h2>
+<h3 id="command-line-editors">Command Line Editors</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Vim</span></span>
+<span class="line"><span style="color:#B392F0">vim</span><span style="color:#9ECBFF"> file.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Nano</span></span>
+<span class="line"><span style="color:#B392F0">nano</span><span style="color:#9ECBFF"> file.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Emacs</span></span>
+<span class="line"><span style="color:#B392F0">emacs</span><span style="color:#9ECBFF"> file.txt</span></span></code></pre>
+<h3 id="pagers">Pagers</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Less (more features)</span></span>
+<span class="line"><span style="color:#B392F0">less</span><span style="color:#9ECBFF"> file.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># More (basic paging)</span></span>
+<span class="line"><span style="color:#B392F0">more</span><span style="color:#9ECBFF"> file.txt</span></span></code></pre>
+<h2 id="compression--archives">Compression &#x26; Archives</h2>
+<h3 id="file-compression">File Compression</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Compress files</span></span>
+<span class="line"><span style="color:#B392F0">gzip</span><span style="color:#9ECBFF"> file.txt</span></span>
+<span class="line"><span style="color:#B392F0">bzip2</span><span style="color:#9ECBFF"> file.txt</span></span>
+<span class="line"><span style="color:#B392F0">xz</span><span style="color:#9ECBFF"> file.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Decompress files</span></span>
+<span class="line"><span style="color:#B392F0">gunzip</span><span style="color:#9ECBFF"> file.txt.gz</span></span>
+<span class="line"><span style="color:#B392F0">bunzip2</span><span style="color:#9ECBFF"> file.txt.bz2</span></span>
+<span class="line"><span style="color:#B392F0">unxz</span><span style="color:#9ECBFF"> file.txt.xz</span></span></code></pre>
+<h3 id="archive-management">Archive Management</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Create archives</span></span>
+<span class="line"><span style="color:#B392F0">tar</span><span style="color:#79B8FF"> -czf</span><span style="color:#9ECBFF"> archive.tar.gz</span><span style="color:#9ECBFF"> directory/</span></span>
+<span class="line"><span style="color:#B392F0">zip</span><span style="color:#79B8FF"> -r</span><span style="color:#9ECBFF"> archive.zip</span><span style="color:#9ECBFF"> directory/</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Extract archives</span></span>
+<span class="line"><span style="color:#B392F0">tar</span><span style="color:#79B8FF"> -xzf</span><span style="color:#9ECBFF"> archive.tar.gz</span></span>
+<span class="line"><span style="color:#B392F0">unzip</span><span style="color:#9ECBFF"> archive.zip</span></span></code></pre>
+<h2 id="logging--monitoring">Logging &#x26; Monitoring</h2>
+<h3 id="system-logs">System Logs</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># View system logs</span></span>
+<span class="line"><span style="color:#B392F0">dmesg</span></span>
+<span class="line"><span style="color:#B392F0">journalctl</span><span style="color:#79B8FF"> -f</span></span>
+<span class="line"><span style="color:#B392F0">tail</span><span style="color:#79B8FF"> -f</span><span style="color:#9ECBFF"> /var/log/syslog</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Log analysis</span></span>
+<span class="line"><span style="color:#B392F0">logwatch</span></span></code></pre>
+<h2 id="terminal-multiplexing">Terminal Multiplexing</h2>
+<h3 id="session-management">Session Management</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Screen sessions</span></span>
+<span class="line"><span style="color:#B392F0">screen</span><span style="color:#79B8FF"> -S</span><span style="color:#9ECBFF"> session_name</span></span>
+<span class="line"><span style="color:#B392F0">screen</span><span style="color:#79B8FF"> -ls</span></span>
+<span class="line"><span style="color:#B392F0">screen</span><span style="color:#79B8FF"> -r</span><span style="color:#9ECBFF"> session_name</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># tmux sessions</span></span>
+<span class="line"><span style="color:#B392F0">tmux</span><span style="color:#9ECBFF"> new-session</span><span style="color:#79B8FF"> -s</span><span style="color:#9ECBFF"> session_name</span></span>
+<span class="line"><span style="color:#B392F0">tmux</span><span style="color:#9ECBFF"> list-sessions</span></span>
+<span class="line"><span style="color:#B392F0">tmux</span><span style="color:#9ECBFF"> attach-session</span><span style="color:#79B8FF"> -t</span><span style="color:#9ECBFF"> session_name</span></span></code></pre>
+<h2 id="customization">Customization</h2>
+<h3 id="aliases">Aliases</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Set aliases</span></span>
+<span class="line"><span style="color:#F97583">alias</span><span style="color:#E1E4E8"> ll</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">'ls -la'</span></span>
+<span class="line"><span style="color:#F97583">alias</span><span style="color:#E1E4E8"> g</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">'git'</span></span>
+<span class="line"><span style="color:#F97583">alias</span><span style="color:#E1E4E8"> p</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">'python'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># List aliases</span></span>
+<span class="line"><span style="color:#79B8FF">alias</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Remove aliases</span></span>
+<span class="line"><span style="color:#79B8FF">unalias</span><span style="color:#9ECBFF"> ll</span></span></code></pre>
+<h3 id="environment-variables">Environment Variables</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0"><code><span class="line"><span style="color:#6A737D"># Set environment variables</span></span>
+<span class="line"><span style="color:#F97583">export</span><span style="color:#E1E4E8"> EDITOR</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">vim</span></span>
+<span class="line"><span style="color:#F97583">export</span><span style="color:#E1E4E8"> PATH</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">$PATH</span><span style="color:#9ECBFF">:/custom/path</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Show environment</span></span>
+<span class="line"><span style="color:#B392F0">env</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Unset variables</span></span>
+<span class="line"><span style="color:#79B8FF">unset</span><span style="color:#9ECBFF"> VARIABLE_NAME</span></span></code></pre>
+<h2 id="performance-features">Performance Features</h2>
+<h3 id="high-performance">High Performance</h3>
+<ul>
+<li><strong>Rust Backend</strong>: Blazing fast performance with memory safety</li>
+<li><strong>Optimized Commands</strong>: Efficient implementations of common operations</li>
+<li><strong>Smart Caching</strong>: Intelligent caching for frequently used operations</li>
+</ul>
+<h3 id="memory-management">Memory Management</h3>
+<ul>
+<li><strong>Efficient Memory Usage</strong>: Minimal memory footprint</li>
+<li><strong>Garbage Collection</strong>: Automatic cleanup of unused resources</li>
+<li><strong>Resource Monitoring</strong>: Built-in resource usage tracking</li>
+</ul>
+<h2 id="cross-platform-support">Cross-Platform Support</h2>
+<h3 id="windows">Windows</h3>
+<ul>
+<li>Full Windows compatibility</li>
+<li>PowerShell integration</li>
+<li>Windows-specific optimizations</li>
+</ul>
+<h3 id="macos">macOS</h3>
+<ul>
+<li>Native macOS integration</li>
+<li>Homebrew package manager support</li>
+<li>macOS-specific features</li>
+</ul>
+<h3 id="linux">Linux</h3>
+<ul>
+<li>Comprehensive Linux support</li>
+<li>Package manager integration</li>
+<li>Systemd service management</li>
+</ul>
+<h2 id="accessibility">Accessibility</h2>
+<h3 id="screen-reader-support">Screen Reader Support</h3>
+<ul>
+<li>Terminal output optimization for screen readers</li>
+<li>Keyboard navigation support</li>
+<li>High contrast mode support</li>
+</ul>
+<h3 id="internationalization">Internationalization</h3>
+<ul>
+<li>Unicode support</li>
+<li>Multi-language command help</li>
+<li>Locale-aware formatting</li>
+</ul>
+<h2 id="next-steps">Next Steps</h2>
+<p>Now that you’ve explored the features, check out:</p>
+<ul>
+<li><a href="/docs/commands">Command Reference</a> - Detailed command documentation</li>
+<li><a href="/docs/plugins">Plugin System</a> - Extend functionality with plugins</li>
+<li><a href="/docs/configuration">Configuration</a> - Customize your experience</li>
+<li><a href="/docs/api">API Reference</a> - Programmatic access to Macbrew</li>
+</ul> </main> <!-- Prism.js script -->   </body> </html> 
