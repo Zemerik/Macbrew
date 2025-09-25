@@ -1,6 +1,6 @@
 /dist/ linguist-vendored
 /node_modules/ linguist-vendored
-/target/ linguist-vendored
+/target/** linguist-vendored
 *.lock linguist-vendored
 *.d.ts linguist-vendored
 
