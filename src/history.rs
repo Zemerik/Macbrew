@@ -38,7 +38,7 @@ impl CommandHistory {
         let entry = HistoryEntry {
             command: command.to_string(),
             timestamp: Utc::now(),
-            exit_code: 0, // We'll assume success for now
+            exit_code: 0, // We'll assume success for now, can be updated later
         };
 
         self.entries.push_back(entry);
@@ -53,6 +53,12 @@ impl CommandHistory {
             if let Err(e) = self.save() {
                 eprintln!("Warning: Could not save command history: {}", e);
             }
+        }
+    }
+
+    pub fn update_last_exit_code(&mut self, exit_code: i32) {
+        if let Some(entry) = self.entries.back_mut() {
+            entry.exit_code = exit_code;
         }
     }
 

@@ -1,6 +1,6 @@
 {
   "name": "@zemerik/macbrew",
-  "version": "1.0.1",
+  "version": "1.2.1",
   "description": "🚀 Advanced terminal emulator built in Rust with Python integration - A comprehensive command-line experience",
   "main": "dist/index.js",
   "bin": {
@@ -9,7 +9,7 @@
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc --watch",
-    "clean": "rimraf dist",
+    "clean": "npx rimraf dist",
     "prepublishOnly": "npm run clean && npm run build",
     "install": "node scripts/install.js",
     "postinstall": "node scripts/postinstall.js",

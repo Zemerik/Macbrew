@@ -2064,7 +2064,7 @@ dependencies = [
 
 [[package]]
 name = "terminal-emulator"
-version = "1.0.1"
+version = "1.2.1"
 dependencies = [
  "anyhow",
  "base64 0.21.7",

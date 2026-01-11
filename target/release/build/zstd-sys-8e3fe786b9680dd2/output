@@ -1,5 +1,5 @@
 cargo:rerun-if-env-changed=ZSTD_SYS_USE_PKG_CONFIG
-OUT_DIR = Some(C:\Users\HY250\Documents\Cursor\Emulator\target\release\build\zstd-sys-8e3fe786b9680dd2\out)
+OUT_DIR = Some(C:\Users\HY250\Documents\Cursor\Macbrew v1.2.1\Macbrew\target\release\build\zstd-sys-8e3fe786b9680dd2\out)
 OPT_LEVEL = Some(3)
 TARGET = Some(x86_64-pc-windows-gnu)
 HOST = Some(x86_64-pc-windows-gnu)
@@ -26,7 +26,7 @@ CFLAGS_x86_64_pc_windows_gnu = None
 cargo:rerun-if-env-changed=CFLAGS_x86_64-pc-windows-gnu
 CFLAGS_x86_64-pc-windows-gnu = None
 CARGO_ENCODED_RUSTFLAGS = Some()
-OUT_DIR = Some(C:\Users\HY250\Documents\Cursor\Emulator\target\release\build\zstd-sys-8e3fe786b9680dd2\out)
+OUT_DIR = Some(C:\Users\HY250\Documents\Cursor\Macbrew v1.2.1\Macbrew\target\release\build\zstd-sys-8e3fe786b9680dd2\out)
 cargo:rerun-if-env-changed=CC_ENABLE_DEBUG_OUTPUT
 cargo:rerun-if-env-changed=CRATE_CC_NO_DEFAULTS
 CRATE_CC_NO_DEFAULTS = None
@@ -41,7 +41,7 @@ cargo:rerun-if-env-changed=CFLAGS_x86_64_pc_windows_gnu
 CFLAGS_x86_64_pc_windows_gnu = None
 cargo:rerun-if-env-changed=CFLAGS_x86_64-pc-windows-gnu
 CFLAGS_x86_64-pc-windows-gnu = None
-OUT_DIR = Some(C:\Users\HY250\Documents\Cursor\Emulator\target\release\build\zstd-sys-8e3fe786b9680dd2\out)
+OUT_DIR = Some(C:\Users\HY250\Documents\Cursor\Macbrew v1.2.1\Macbrew\target\release\build\zstd-sys-8e3fe786b9680dd2\out)
 cargo:rerun-if-env-changed=CC_ENABLE_DEBUG_OUTPUT
 cargo:rerun-if-env-changed=CRATE_CC_NO_DEFAULTS
 CRATE_CC_NO_DEFAULTS = None
@@ -56,7 +56,7 @@ cargo:rerun-if-env-changed=CFLAGS_x86_64_pc_windows_gnu
 CFLAGS_x86_64_pc_windows_gnu = None
 cargo:rerun-if-env-changed=CFLAGS_x86_64-pc-windows-gnu
 CFLAGS_x86_64-pc-windows-gnu = None
-OUT_DIR = Some(C:\Users\HY250\Documents\Cursor\Emulator\target\release\build\zstd-sys-8e3fe786b9680dd2\out)
+OUT_DIR = Some(C:\Users\HY250\Documents\Cursor\Macbrew v1.2.1\Macbrew\target\release\build\zstd-sys-8e3fe786b9680dd2\out)
 cargo:rerun-if-env-changed=CC_ENABLE_DEBUG_OUTPUT
 cargo:rerun-if-env-changed=CRATE_CC_NO_DEFAULTS
 CRATE_CC_NO_DEFAULTS = None
@@ -124,6 +124,6 @@ ARFLAGS_x86_64_pc_windows_gnu = None
 cargo:rerun-if-env-changed=ARFLAGS_x86_64-pc-windows-gnu
 ARFLAGS_x86_64-pc-windows-gnu = None
 cargo:rustc-link-lib=static=zstd
-cargo:rustc-link-search=native=C:\Users\HY250\Documents\Cursor\Emulator\target\release\build\zstd-sys-8e3fe786b9680dd2\out
-cargo:root=C:\Users\HY250\Documents\Cursor\Emulator\target\release\build\zstd-sys-8e3fe786b9680dd2\out
+cargo:rustc-link-search=native=C:\Users\HY250\Documents\Cursor\Macbrew v1.2.1\Macbrew\target\release\build\zstd-sys-8e3fe786b9680dd2\out
+cargo:root=C:\Users\HY250\Documents\Cursor\Macbrew v1.2.1\Macbrew\target\release\build\zstd-sys-8e3fe786b9680dd2\out
 cargo:include=C:\Users\HY250\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\zstd-sys-2.0.15+zstd.1.5.7\zstd/lib

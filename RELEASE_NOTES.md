@@ -1,4 +1,39 @@
-# 📝 Macbrew v1.0.1 – Release Notes
+# 📝 Macbrew Release Notes
+
+## v1.2.1 – Latest Release
+
+### 🎉 What's New
+
+**Enhanced History Management**
+- History entries now display timestamps (YYYY-MM-DD HH:MM:SS)
+- Exit code indicators (✓/✗) show command success/failure status
+- New `history search <term>` command to search through your command history
+- New `history clear` command to clear command history
+- Default history display increased from 10 to 20 entries
+
+**Version Information**
+- Added `version` command to display Macbrew version and build information
+- Consistent version display across all components
+
+**Improved Alias System**
+- Aliases are now properly resolved and executed during command processing
+- Enhanced `alias` and `unalias` commands with better functionality
+- Aliases automatically saved to configuration file
+
+**Better User Experience**
+- Colored prompt display using configuration color scheme
+- Enhanced error messages with color coding
+- Improved help command with updated documentation
+
+### 🔧 Technical Improvements
+- Proper exit code tracking in command history
+- Better alias resolution with recursive support
+- Enhanced configuration persistence
+- Improved error handling and display
+
+---
+
+## v1.0.1 – Previous Release
 
 ## Overview
 

@@ -81,7 +81,7 @@ impl TerminalEmulator {
     }
 
     fn run(&mut self) -> Result<()> {
-        println!("🚀 Macbrew v1.0.1");
+        println!("🚀 Macbrew v1.2.1");
         println!("Type 'help' for available commands, 'exit' to quit");
         println!("Current directory: {}", self.current_dir.display());
         println!();
@@ -97,9 +97,15 @@ impl TerminalEmulator {
             self.session.commands.push(input.clone());
             self.history.add_command(&input);
 
-            if let Err(e) = self.execute_command(&input) {
-                eprintln!("Error: {}", e);
-            }
+            let exit_code = match self.execute_command(&input) {
+                Ok(()) => 0,
+                Err(e) => {
+                    eprintln!("{}", self.config.colors.apply_error(&format!("Error: {}", e)));
+                    1
+                }
+            };
+            // Update the last history entry's exit code
+            self.history.update_last_exit_code(exit_code);
         }
     }
 
@@ -118,7 +124,9 @@ impl TerminalEmulator {
             .and_then(|name| name.to_str())
             .unwrap_or("~");
 
-        print!("{}@{}:{} $ ", username, hostname, current_dir);
+        let prompt_text = format!("{}@{}:{} $ ", username, hostname, current_dir);
+        let colored_prompt = self.config.colors.apply_prompt(&prompt_text);
+        print!("{}", colored_prompt);
         io::stdout().flush().unwrap();
     }
 
@@ -134,7 +142,19 @@ impl TerminalEmulator {
             return Ok(());
         }
 
-        let command = parts[0];
+        // Check for aliases first
+        let command = if let Some(alias_value) = self.config.get_alias(parts[0]) {
+            // Replace alias with its value
+            let mut alias_parts: Vec<&str> = alias_value.split_whitespace().collect();
+            alias_parts.extend_from_slice(&parts[1..]);
+            if alias_parts.is_empty() {
+                return Ok(());
+            }
+            // Recursively execute the aliased command
+            return self.execute_command(&alias_parts.join(" "));
+        } else {
+            parts[0]
+        };
         let args = &parts[1..];
 
         match command {
@@ -170,6 +190,9 @@ impl TerminalEmulator {
             }
             "history" => {
                 self.show_history(args)?;
+            }
+            "version" => {
+                self.show_version()?;
             }
             "help" => {
                 self.show_help()?;
@@ -240,7 +263,13 @@ impl TerminalEmulator {
                     self.job_manager.kill_job(job_id)?;
                 }
             }
-            "alias" | "unalias" | "export" | "unset" | "env" | "which" | "whereis" | "type" | "hash" | "plugins" | "install-plugin" | "uninstall-plugin" | "wc" | "head" | "tail" | "sort" | "uniq" | "cut" | "paste" | "tr" | "sed" | "awk" | "file" | "stat" | "chown" | "chgrp" | "ln" | "touch" | "pkill" | "nohup" | "nice" | "renice" | "systemctl" | "service" | "init" | "systemd-analyze" | "useradd" | "userdel" | "usermod" | "passwd" | "groupadd" | "groupdel" | "id" | "who" | "w" | "df" | "du" | "mount" | "umount" | "fdisk" | "parted" | "mkfs" | "fsck" | "ping" | "ping6" | "traceroute" | "mtr" | "nslookup" | "dig" | "host" | "ifconfig" | "ip" | "netstat" | "ss" | "route" | "arp" | "curl" | "wget" | "ssh" | "scp" | "rsync" | "telnet" | "nc" | "socat" | "nmap" | "tcpdump" | "wireshark" | "iftop" | "nethogs" | "iotop" | "md5sum" | "sha1sum" | "sha256sum" | "sha512sum" | "cksum" | "openssl" | "gpg" | "base64" | "hexdump" | "xxd" | "ssh-keygen" | "ssh-copy-id" | "ssh-add" | "ssh-agent" | "pip" | "conda" | "npm" | "yarn" | "docker" | "kubectl" | "helm" | "terraform" | "ansible" | "ansible-playbook" | "puppet" | "chef" | "vagrant" | "virtualbox" | "vmware" | "qemu" | "kvm" | "libvirt" | "virsh" | "virt-manager" | "vim" | "nano" | "emacs" | "ed" | "less" | "more" | "most" | "gzip" | "gunzip" | "bzip2" | "bunzip2" | "xz" | "unxz" | "tar" | "zip" | "unzip" | "7z" | "rar" | "unrar" | "dmesg" | "journalctl" | "logwatch" | "rsyslog" | "logrotate" | "screen" | "tmux" | "byobu" | "config" | "man" | "info" | "apropos" | "whatis" | "brew" | "pip" | "npm" | "yarn" | "docker" | "kubectl" | "helm" | "terraform" | "ansible" | "puppet" | "chef" | "vagrant" | "virtualbox" | "vmware" | "qemu" | "kvm" | "libvirt" | "virsh" | "virt-manager" => {
+            "alias" => {
+                self.handle_alias(args)?;
+            }
+            "unalias" => {
+                self.handle_unalias(args)?;
+            }
+            "export" | "unset" | "env" | "which" | "whereis" | "type" | "hash" | "plugins" | "install-plugin" | "uninstall-plugin" | "wc" | "head" | "tail" | "sort" | "uniq" | "cut" | "paste" | "tr" | "sed" | "awk" | "file" | "stat" | "chown" | "chgrp" | "ln" | "touch" | "pkill" | "nohup" | "nice" | "renice" | "systemctl" | "service" | "init" | "systemd-analyze" | "useradd" | "userdel" | "usermod" | "passwd" | "groupadd" | "groupdel" | "id" | "who" | "w" | "df" | "du" | "mount" | "umount" | "fdisk" | "parted" | "mkfs" | "fsck" | "ping" | "ping6" | "traceroute" | "mtr" | "nslookup" | "dig" | "host" | "ifconfig" | "ip" | "netstat" | "ss" | "route" | "arp" | "curl" | "wget" | "ssh" | "scp" | "rsync" | "telnet" | "nc" | "socat" | "nmap" | "tcpdump" | "wireshark" | "iftop" | "nethogs" | "iotop" | "md5sum" | "sha1sum" | "sha256sum" | "sha512sum" | "cksum" | "openssl" | "gpg" | "base64" | "hexdump" | "xxd" | "ssh-keygen" | "ssh-copy-id" | "ssh-add" | "ssh-agent" | "pip" | "conda" | "npm" | "yarn" | "docker" | "kubectl" | "helm" | "terraform" | "ansible" | "ansible-playbook" | "puppet" | "chef" | "vagrant" | "virtualbox" | "vmware" | "qemu" | "kvm" | "libvirt" | "virsh" | "virt-manager" | "vim" | "nano" | "emacs" | "ed" | "less" | "more" | "most" | "gzip" | "gunzip" | "bzip2" | "bunzip2" | "xz" | "unxz" | "tar" | "zip" | "unzip" | "7z" | "rar" | "unrar" | "dmesg" | "journalctl" | "logwatch" | "rsyslog" | "logrotate" | "screen" | "tmux" | "byobu" | "config" | "man" | "info" | "apropos" | "whatis" | "brew" | "pip" | "npm" | "yarn" | "docker" | "kubectl" | "helm" | "terraform" | "ansible" | "puppet" | "chef" | "vagrant" | "virtualbox" | "vmware" | "qemu" | "kvm" | "libvirt" | "virsh" | "virt-manager" => {
                 self.execute_external_command(command, args)?;
             }
             _ => {
@@ -338,47 +367,109 @@ impl TerminalEmulator {
         Ok(())
     }
 
-    fn show_history(&self, args: &[&str]) -> Result<()> {
+    fn show_history(&mut self, args: &[&str]) -> Result<()> {
+        if !args.is_empty() && args[0] == "clear" {
+            // Clear history
+            self.history.clear();
+            println!("{}", self.config.colors.apply_success("History cleared."));
+            return Ok(());
+        }
+
+        if !args.is_empty() && args[0] == "search" {
+            // Search history
+            if args.len() < 2 {
+                eprintln!("{}", self.config.colors.apply_error("history search: missing search term"));
+                return Ok(());
+            }
+            let query = args[1];
+            let results = self.history.search(query);
+            if results.is_empty() {
+                println!("No matching commands found.");
+            } else {
+                println!("Found {} matching command(s):", results.len());
+                for (i, entry) in results.iter().enumerate() {
+                    let timestamp = entry.timestamp.format("%Y-%m-%d %H:%M:%S");
+                    let status = if entry.exit_code == 0 {
+                        self.config.colors.apply_success("✓")
+                    } else {
+                        self.config.colors.apply_error("✗")
+                    };
+                    println!("  {} [{}] {} - {}", i + 1, timestamp, status, entry.command);
+                }
+            }
+            return Ok(());
+        }
+
         let limit = if !args.is_empty() {
-            args[0].parse::<usize>().unwrap_or(10)
+            match args[0].parse::<usize>() {
+                Ok(n) => n,
+                Err(_) => {
+                    eprintln!("{}", self.config.colors.apply_error(&format!("history: invalid number: {}", args[0])));
+                    return Ok(());
+                }
+            }
         } else {
-            10
+            20
         };
 
-        let commands = self.history.get_recent(limit);
-        for (i, cmd) in commands.iter().enumerate() {
-            println!("{}: {}", i + 1, cmd);
+        let entries = self.history.get_last_n(limit);
+        if entries.is_empty() {
+            println!("No command history.");
+        } else {
+            println!("Command history (showing last {}):", limit);
+            for (i, entry) in entries.iter().enumerate() {
+                let timestamp = entry.timestamp.format("%Y-%m-%d %H:%M:%S");
+                let status = if entry.exit_code == 0 {
+                    self.config.colors.apply_success("✓")
+                } else {
+                    self.config.colors.apply_error("✗")
+                };
+                let index = self.history.get_all().len() - entries.len() + i + 1;
+                println!("  {} [{}] {} - {}", index, timestamp, status, entry.command);
+            }
         }
 
         Ok(())
     }
 
     fn show_help(&self) -> Result<()> {
-        println!("Available commands:");
-        println!("  ls, dir          - List directory contents");
-        println!("  cd <directory>   - Change directory");
-        println!("  pwd              - Print working directory");
-        println!("  cat <file>       - Display file contents");
-        println!("  echo <text>      - Print text");
-        println!("  date             - Show current date/time");
-        println!("  whoami           - Show current user");
-        println!("  history [n]      - Show command history");
-        println!("  clear            - Clear screen");
-        println!("  mkdir <dir>      - Create directory");
-        println!("  rm <file>        - Remove file");
-        println!("  cp <src> <dest>  - Copy file");
-        println!("  mv <src> <dest>  - Move file");
-        println!("  grep <pattern>   - Search for pattern");
-        println!("  find <path>      - Find files");
-        println!("  chmod <mode>     - Change permissions");
-        println!("  ps               - Show processes");
-        println!("  top              - Show system info");
-        println!("  python <script>  - Run Python script");
-        println!("  brew <command>   - Homebrew package manager");
-        println!("  git <command>    - Git version control");
-        println!("  sudo <command>   - Run as superuser");
-        println!("  help             - Show this help");
-        println!("  exit, quit       - Exit terminal");
+        println!("{}", self.config.colors.apply_command("Available commands:"));
+        println!("  ls, dir              - List directory contents");
+        println!("  cd <directory>       - Change directory");
+        println!("  pwd                  - Print working directory");
+        println!("  cat <file>           - Display file contents");
+        println!("  echo <text>          - Print text");
+        println!("  date                 - Show current date/time");
+        println!("  whoami               - Show current user");
+        println!("  history [n]          - Show command history (last n entries)");
+        println!("  history search <term> - Search command history");
+        println!("  history clear        - Clear command history");
+        println!("  version              - Show version information");
+        println!("  clear                - Clear screen");
+        println!("  mkdir <dir>          - Create directory");
+        println!("  rm <file>            - Remove file");
+        println!("  cp <src> <dest>      - Copy file");
+        println!("  mv <src> <dest>      - Move file");
+        println!("  grep <pattern>       - Search for pattern");
+        println!("  find <path>          - Find files");
+        println!("  chmod <mode>         - Change permissions");
+        println!("  ps                   - Show processes");
+        println!("  top                  - Show system info");
+        println!("  python <script>     - Run Python script");
+        println!("  brew <command>       - Homebrew package manager");
+        println!("  git <command>        - Git version control");
+        println!("  sudo <command>       - Run as superuser");
+        println!("  alias <name>=<cmd>  - Create alias");
+        println!("  unalias <name>      - Remove alias");
+        println!("  help                 - Show this help");
+        println!("  exit, quit           - Exit terminal");
+        Ok(())
+    }
+
+    fn show_version(&self) -> Result<()> {
+        println!("{}", self.config.colors.apply_success("Macbrew v1.2.1"));
+        println!("A feature-rich terminal emulator built in Rust with Python integration");
+        println!("Built with ❤️ using Rust, Python, and TypeScript");
         Ok(())
     }
 
@@ -688,6 +779,60 @@ impl TerminalEmulator {
         println!("[sudo] password for user: ");
         println!("(Simulated sudo execution)");
         println!("Running: {}", args.join(" "));
+        Ok(())
+    }
+
+    fn handle_alias(&mut self, args: &[&str]) -> Result<()> {
+        if args.is_empty() {
+            // List all aliases
+            let aliases = self.config.list_aliases();
+            if aliases.is_empty() {
+                println!("No aliases defined.");
+            } else {
+                println!("Defined aliases:");
+                for (name, value) in aliases {
+                    println!("  {} = {}", name, value);
+                }
+            }
+            return Ok(());
+        }
+
+        let arg_str = args.join(" ");
+        if let Some(equals_pos) = arg_str.find('=') {
+            let name = arg_str[..equals_pos].trim();
+            let value = arg_str[equals_pos + 1..].trim();
+            if name.is_empty() {
+                eprintln!("{}", self.config.colors.apply_error("alias: invalid alias name"));
+                return Ok(());
+            }
+            self.config.set_alias(name.to_string(), value.to_string());
+            self.config.save()?;
+            println!("{}", self.config.colors.apply_success(&format!("Alias '{}' created.", name)));
+        } else {
+            // Show specific alias
+            if let Some(value) = self.config.get_alias(args[0]) {
+                println!("{} = {}", args[0], value);
+            } else {
+                eprintln!("{}", self.config.colors.apply_error(&format!("alias: '{}' not found", args[0])));
+            }
+        }
+        Ok(())
+    }
+
+    fn handle_unalias(&mut self, args: &[&str]) -> Result<()> {
+        if args.is_empty() {
+            eprintln!("{}", self.config.colors.apply_error("unalias: missing alias name"));
+            return Ok(());
+        }
+
+        for alias_name in args {
+            if let Some(_) = self.config.remove_alias(alias_name) {
+                self.config.save()?;
+                println!("{}", self.config.colors.apply_success(&format!("Alias '{}' removed.", alias_name)));
+            } else {
+                eprintln!("{}", self.config.colors.apply_error(&format!("unalias: '{}' not found", alias_name)));
+            }
+        }
         Ok(())
     }
 
