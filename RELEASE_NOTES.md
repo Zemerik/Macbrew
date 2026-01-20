@@ -1,6 +1,19 @@
 # 📝 Macbrew Release Notes
 
-## v1.2.1 – Latest Release
+## v1.2.2
+
+### 🎉 What's New
+
+**History Export Command**
+- New `history export <filename>` command lets you instantly export your command history to a file (with timestamps & exit codes)
+- Perfect for sharing, backups, and audits
+
+### 🔧 Technical Improvements
+- Updated all version numbers to 1.2.2
+
+---
+
+## v1.2.1 – Previous Release
 
 ### 🎉 What's New
 

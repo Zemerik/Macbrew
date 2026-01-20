@@ -33,7 +33,7 @@ cargo build --release
 ```bash
 # Test local installation
 npm pack
-npm install -g macbrew-1.0.0.tgz
+npm install -g macbrew-1.2.2.tgz
 
 # Test the package
 macbrew --help

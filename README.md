@@ -119,6 +119,9 @@ pwd
 cat filename.txt
 echo "Hello, World!"
 
+# History export
+history export history.txt
+
 # Python execution
 python -c "print('Hello from Python!')"
 python script.py

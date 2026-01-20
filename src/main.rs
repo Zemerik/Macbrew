@@ -368,6 +368,19 @@ impl TerminalEmulator {
     }
 
     fn show_history(&mut self, args: &[&str]) -> Result<()> {
+        if !args.is_empty() && args[0] == "export" {
+            if args.len() < 2 {
+                eprintln!("{}", self.config.colors.apply_error("history export: missing file name"));
+                return Ok(());
+            }
+            let filename = args[1];
+            match self.history.export_to_file(filename) {
+                Ok(_) => println!("{}", self.config.colors.apply_success(&format!("History exported to {}", filename))),
+                Err(e) => eprintln!("{}", self.config.colors.apply_error(&format!("Failed to export history: {}", e))),
+            }
+            return Ok(());
+        }
+
         if !args.is_empty() && args[0] == "clear" {
             // Clear history
             self.history.clear();
@@ -563,7 +576,7 @@ impl TerminalEmulator {
             "log" => {
                 println!("commit abc123def456 (HEAD -> main)");
                 println!("Author: User <user@example.com>");
-                println!("Date:   Mon Jan 1 12:00:00 2025 +0000");
+                println!("Date:   Mon Jan 1 12:00:00 2026 +0000");
                 println!("");
                 println!("    Initial commit");
             }

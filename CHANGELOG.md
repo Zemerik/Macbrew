@@ -5,7 +5,19 @@ All notable changes to Macbrew will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.2.1] - 2025-01-11
+## [1.2.2] - 2026-01-21
+
+### Added
+- **History Export Command**:
+  - New `history export <filename>` command to export command history (with timestamps and exit codes) to a file
+  - Useful for audits, sharing, and backups
+
+### Changed
+- Updated version numbers to 1.2.2 in `package.json` and `Cargo.toml`
+
+---
+
+## [1.2.1] - 2026-01-11
 
 ### Added
 - **Enhanced History Command**: 

@@ -19,7 +19,25 @@ pub struct CommandHistory {
 }
 
 impl CommandHistory {
-    pub fn new() -> Self {
+    pub fn new() -> Self {}
+    /// Export the last N (or all, if less than N) history entries to a file
+    pub fn export_to_file(&self, filename: &str) -> Result<()> {
+        use std::io::Write;
+        let entries = &self.entries;
+        let mut file = std::fs::File::create(filename)?;
+        for entry in entries {
+            writeln!(
+                file,
+                "[{}] [{}] {} - {}",
+                entry.timestamp.format("%Y-%m-%d %H:%M:%S"),
+                if entry.exit_code == 0 { "✓" } else { "✗" },
+                entry.exit_code,
+                entry.command
+            )?;
+        }
+        Ok(())
+    }
+
         let mut history = CommandHistory {
             entries: VecDeque::new(),
             max_entries: 1000,
