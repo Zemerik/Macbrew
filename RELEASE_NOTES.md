@@ -1,5 +1,18 @@
 # 📝 Macbrew Release Notes
 
+## v1.2.3
+
+### 🎉 What's New
+
+**Customizable History Output**
+- New `history --no-status` flag: optionally hide the ✓/✗ exit status column in command history for a cleaner look or easier scripting
+- Default remains with status shown
+
+### 🔧 Technical Improvements
+- Updated all version numbers to 1.2.3
+
+---
+
 ## v1.2.2
 
 ### 🎉 What's New

@@ -119,8 +119,11 @@ pwd
 cat filename.txt
 echo "Hello, World!"
 
-# History export
+# History export (with optional status flags)
 history export history.txt
+
+# History without status indicators
+history --no-status
 
 # Python execution
 python -c "print('Hello from Python!')"

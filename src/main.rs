@@ -430,16 +430,22 @@ impl TerminalEmulator {
             println!("No command history.");
         } else {
             println!("Command history (showing last {}):", limit);
-            for (i, entry) in entries.iter().enumerate() {
-                let timestamp = entry.timestamp.format("%Y-%m-%d %H:%M:%S");
-                let status = if entry.exit_code == 0 {
-                    self.config.colors.apply_success("✓")
-                } else {
-                    self.config.colors.apply_error("✗")
-                };
-                let index = self.history.get_all().len() - entries.len() + i + 1;
-                println!("  {} [{}] {} - {}", index, timestamp, status, entry.command);
-            }
+            // Check for '--no-status' flag
+let no_status = args.iter().any(|arg| *arg == "--no-status");
+for (i, entry) in entries.iter().enumerate() {
+    let timestamp = entry.timestamp.format("%Y-%m-%d %H:%M:%S");
+    let index = self.history.get_all().len() - entries.len() + i + 1;
+    if no_status {
+        println!("  {} [{}] {}", index, timestamp, entry.command);
+    } else {
+        let status = if entry.exit_code == 0 {
+            self.config.colors.apply_success("✓")
+        } else {
+            self.config.colors.apply_error("✗")
+        };
+        println!("  {} [{}] {} - {}", index, timestamp, status, entry.command);
+    }
+}
         }
 
         Ok(())
@@ -455,6 +461,7 @@ impl TerminalEmulator {
         println!("  date                 - Show current date/time");
         println!("  whoami               - Show current user");
         println!("  history [n]          - Show command history (last n entries)");
+println!("  history --no-status  - Hide ✓/✗ status symbols in history output");
         println!("  history search <term> - Search command history");
         println!("  history clear        - Clear command history");
         println!("  version              - Show version information");
